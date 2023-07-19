@@ -13,12 +13,13 @@ root.prepend(wrapper);
 const nav = document.createElement("div");
 nav.className = "nav";
 
-const userIconWrapper = document.createElement("div");
+const userIconWrapper = document.createElement("a");
 userIconWrapper.className = "navUserIcon";
+userIconWrapper.href = "/";
 
 const userIconContent = document.createElement("div");
 userIconContent.className = "navUserIconContent";
-userIconContent.innerText = "skb.";
+userIconContent.textContent = "skb.";
 
 const searchForm = document.createElement("form");
 searchForm.className = "navSearchForm";
@@ -39,7 +40,7 @@ headScreen.className = "headScreen";
 
 const title = document.createElement("h1");
 title.className = "headScreenTitle";
-title.innerText = "Клиенты";
+title.textContent = "Клиенты";
 
 //  Создаем обертку для таблицы и кнопки добавления клиента
 const headScreenData = document.createElement("div");
@@ -115,13 +116,13 @@ const createDataHeader = ({ id, title, className, sort, clicked }) => {
     header.className = clicked
         ? `trHeadThData ${className} pointer`
         : `trHeadThData ${className}`;
-    header.innerText = title;
+    header.textContent = title;
     header.dataset.headerId = id;
     th.append(header);
 
     const span = document.createElement("span");
     span.className = "trHeadThDataArrowUp";
-    sort !== "" ? (span.innerText = sort) : null;
+    sort !== "" ? (span.textContent = sort) : null;
 
     clicked && header.append(span);
 
@@ -228,7 +229,7 @@ const createDataBody = ({
     thId.scope = "row";
     const thIdBody = document.createElement("div");
     thIdBody.className = "thIdBody";
-    thIdBody.innerText = id;
+    thIdBody.textContent = id;
     thId.append(thIdBody);
 
     // ФИО
@@ -236,17 +237,17 @@ const createDataBody = ({
     tdFullName.className = "tdFullName";
     const tdFullNameBody = document.createElement("div");
     tdFullNameBody.className = "tdFullNameBody";
-    tdFullNameBody.innerText = `${surname} ${name} ${patronymic}`;
+    tdFullNameBody.textContent = `${surname} ${name} ${patronymic}`;
     tdFullName.append(tdFullNameBody);
 
     // Дата и время создания клиента
     const tdCreatedAt = document.createElement("td");
     const tdCreatedAtBody = document.createElement("div");
-    tdCreatedAtBody.innerText = formatDate(created_at).dayMonthYear;
+    tdCreatedAtBody.textContent = formatDate(created_at).dayMonthYear;
     // Время
     const tdCreatedAtBodyTime = document.createElement("span");
     tdCreatedAtBodyTime.className = "tdDateBodyTime";
-    tdCreatedAtBodyTime.innerText = formatDate(created_at).time;
+    tdCreatedAtBodyTime.textContent = formatDate(created_at).time;
     tdCreatedAtBody.append(tdCreatedAtBodyTime);
     tdCreatedAt.append(tdCreatedAtBody);
 
@@ -254,11 +255,11 @@ const createDataBody = ({
     const tdUpdatedAt = document.createElement("td");
     const tdUpdatedAtBody = document.createElement("div");
     tdUpdatedAtBody.className = "tdDateBody";
-    tdUpdatedAtBody.innerText = formatDate(updated_at).dayMonthYear;
+    tdUpdatedAtBody.textContent = formatDate(updated_at).dayMonthYear;
     // Время
     const tdUpdatedAtBodyTime = document.createElement("span");
     tdUpdatedAtBodyTime.className = "tdDateBodyTime";
-    tdUpdatedAtBodyTime.innerText = formatDate(updated_at).time;
+    tdUpdatedAtBodyTime.textContent = formatDate(updated_at).time;
     tdUpdatedAtBody.append(tdUpdatedAtBodyTime);
     tdUpdatedAt.append(tdUpdatedAtBody);
 
@@ -298,7 +299,7 @@ const createDataBody = ({
     tdCActionEditBody.className = "tdCActionsBody";
     const btnEdit = document.createElement("button");
     btnEdit.className = "btnEdit pointer";
-    btnEdit.innerText = "Изменить";
+    btnEdit.textContent = "Изменить";
     tdActionEdit.append(btnEdit);
 
     // Кнопка "Удалить"
@@ -307,7 +308,7 @@ const createDataBody = ({
     tdCActionRemoveBody.className = "tdCActionsBody";
     const btnRemove = document.createElement("button");
     btnRemove.className = "btnRemove pointer";
-    btnRemove.innerText = "Удалить";
+    btnRemove.textContent = "Удалить";
     tdActionRemove.append(btnRemove);
 
     tr.append(
@@ -333,14 +334,18 @@ table.append(tHead, tBody);
 /* Создаем кнопку добавления клиента */
 const addClient = document.createElement("button");
 addClient.className = "addClient pointer";
-addClient.innerText = "Добавить клиента";
+addClient.textContent = "Добавить клиента";
+addClient.addEventListener("click", () => {
+    const modal = document.querySelector("#createClient");
+    modal.classList.remove("d-none");
+});
 
 headScreenData.append(table, addClient);
 
 /* Функция создания модального окна с формой для создания и изменения клиента */
 const createModalForm = (modalId, title, payload) => {
     const modal = document.createElement("div");
-    modal.className = "modal";
+    modal.className = "modal d-none";
     modal.id = modalId;
 
     const modalContent = document.createElement("div");
@@ -351,11 +356,11 @@ const createModalForm = (modalId, title, payload) => {
 
     const modalTitle = document.createElement("h3");
     modalTitle.className = "modalTitle";
-    modalTitle.innerText = title;
+    modalTitle.textContent = title;
 
     const clientId = document.createElement("span");
     clientId.className = "clientId";
-    clientId.innerText = payload ? `ID: ${payload.id}` : null;
+    clientId.textContent = payload ? `ID: ${payload.id}` : null;
 
     const modalForm = document.createElement("form");
     modalForm.className = "modalForm";
@@ -390,20 +395,22 @@ const createModalForm = (modalId, title, payload) => {
     const addContactBtn = document.createElement("button");
     addContactBtn.className = "addContactBtn pointer";
     addContactBtn.textContent = "Добавить контакт";
+    addContactBtn.type = "button";
     addContact.append(addContactBtn);
 
     const errorMessage = document.createElement("div");
     errorMessage.className = "errorMessage d-none";
-    errorMessage.innerText =
+    errorMessage.textContent =
         "Ошибка: новая модель организационной деятельности предполагает независимые способы реализации поставленных обществом задач!";
 
     const submitBtn = document.createElement("button");
-    submitBtn.className = "submitBtn";
-    submitBtn.innerText = "Сохранить";
+    submitBtn.className = "submitBtn pointer";
+    submitBtn.textContent = "Сохранить";
+    submitBtn.type = "submit";
 
-    const cancelOrRemove = document.createElement("button");
+    const cancelOrRemove = document.createElement("div");
     cancelOrRemove.className = "cancelOrRemove pointer";
-    cancelOrRemove.innerText = payload ? "Удалить" : "Отменить";
+    cancelOrRemove.textContent = payload ? "Удалить клиента" : "Отменить";
 
     modalForm.append(
         inputSurname,
@@ -419,25 +426,100 @@ const createModalForm = (modalId, title, payload) => {
     modalContent.append(modalClose, modalTitle, modalForm);
     modal.append(modalContent);
 
+    modalClose.addEventListener("click", () => {
+        modal.classList.add("d-none");
+    });
+
+    addContactBtn.addEventListener("click", () => {
+        addContact.prepend(createContact());
+    });
+
+    cancelOrRemove.textContent === "Отменить" &&
+        cancelOrRemove.addEventListener("click", () => {
+            modal.classList.add("d-none");
+        });
+
+    window.onclick = (e) => {
+        if (e.target == document.getElementById("createClient")) {
+            document.getElementById("createClient").classList.add("d-none");
+        }
+    };
     return modal;
 };
+
+/* Функция создания ввода контакта */
+function createContact(payload) {
+    const contactWraper = document.createElement("div");
+    contactWraper.className = "contactWraper";
+
+    const contacts = [
+        { id: "1", label: "tel", value: "Доп. телефон" },
+        { id: "2", label: "email", value: "Email" },
+        { id: "3", label: "vk", value: "VK" },
+        { id: "4", label: "fb", value: "Facebook" },
+    ];
+
+    const selectArrow = document.createElement("button");
+    selectArrow.className = "selectArrowDown";
+
+    const selectWraper = document.createElement("div");
+    selectWraper.className = "selectWraper";
+
+    const select = document.createElement("div");
+    select.className = "select";
+    select.textContent = "Телефон";
+
+    const selectLists = document.createElement("ul");
+    selectLists.className = "selectLists d-none";
+
+    const inputContact = document.createElement("input");
+    inputContact.className = "inputContact";
+    inputContact.name = "tel";
+    inputContact.type = "text";
+    inputContact.placeholder = "Введите данные контакта";
+    payload ? (inputContact.value = payload.phone) : null;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "deleteBtn";
+    deleteBtn.type = "button";
+    // Удаление select + input при нажатии на кнопку с круглым крестиком
+    deleteBtn.addEventListener("click", () => {
+        contactWraper.remove();
+    });
+
+    select.addEventListener("click", () => {
+        selectLists.classList.toggle("d-none");
+        selectArrow.classList.toggle("selectArrowUp");
+    });
+
+    selectLists.addEventListener("click", () => {
+        selectLists.classList.add("d-none");
+    });
+
+    contacts.forEach((c) => {
+        const li = document.createElement("ul");
+        li.className = "selectListsItem";
+        li.id = c.label;
+        li.textContent = c.value;
+
+        li.addEventListener("click", () => {
+            select.textContent =
+                li.textContent === "Доп. телефон" ? "Телефон" : li.innerText;
+            inputContact.name = li.id;
+        });
+
+        selectLists.append(li);
+    });
+
+    selectWraper.append(select, selectLists);
+    contactWraper.append(selectArrow, selectWraper, inputContact, deleteBtn);
+
+    return contactWraper;
+}
 
 /* Итог */
 const modal = createModalForm("createClient", "Новый клиент");
 wrapper.append(headScreen, modal);
-
-const contacts = [
-    { id: "1", label: "vk", value: "Vk" },
-    { id: "2", label: "fb", value: "Facebook" },
-    { id: "3", label: "email", value: "Facebook" },
-];
-
-const inputSelect = document.createElement("input");
-inputSelect.className = "modalInput inputName";
-inputSelect.id = "patronymic";
-inputSelect.type = "text";
-inputSelect.name = "patronymic";
-inputSelect.placeholder = "Отчество*";
 
 /* Функция форматирования даты */
 function formatDate(date) {
@@ -459,4 +541,18 @@ function isOneDigit(date) {
         return `0${date}`;
     }
     return date;
+}
+
+// Функция генерации ID
+function generateRandomId() {
+    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    const idLength = 8;
+    let randomId = "";
+
+    for (let i = 0; i < idLength; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomId += characters[randomIndex];
+    }
+
+    return randomId;
 }

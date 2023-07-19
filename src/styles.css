@@ -63,7 +63,7 @@ li {
 }
 
 .d-none {
-    display: none;
+    display: none !important;
 }
 
 /* Начало основной стилизации */
@@ -337,6 +337,18 @@ li {
     color: #9873ff;
     border: 1px solid #9873ff;
 }
+.addClient:hover,
+.addClient:focus {
+    background-color: #9873ff;
+    background-image: url(../assets/addUserFocus.svg);
+    background-repeat: no-repeat;
+    background-position: 26.5px;
+
+    color: #fff;
+    border: 1px solid #9873ff;
+
+    transition: 0.3s;
+}
 
 /* Модальное окно создания нового клиента */
 .modal {
@@ -423,7 +435,7 @@ li {
 
 .addContact {
     width: 100%;
-    height: 35px;
+    height: auto;
 
     margin-bottom: 25px;
     padding: 8px 0;
@@ -454,6 +466,13 @@ li {
     font-weight: 600;
 }
 
+.submitBtn:hover,
+.submitBtn:focus {
+    background: #8261da;
+
+    color: #fff;
+}
+
 .cancelOrRemove {
     display: block;
     margin: 0 auto;
@@ -465,4 +484,124 @@ li {
     font-weight: 400;
     line-height: normal;
     text-decoration-line: underline;
+}
+
+/* Создаем стили для комбинации select + input */
+.contactWraper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    width: 390px;
+    height: 37px;
+    margin: 15px auto;
+}
+
+.selectWraper {
+    position: relative;
+    width: 123px;
+    height: 37px;
+}
+
+.select {
+    width: 100%;
+    height: 100%;
+
+    font-size: 12px;
+    text-align: start;
+    padding: 10px 12px;
+
+    border: 1px solid #c8c5d1;
+    border-right: none;
+    background: #e7e5eb;
+    outline: 0px;
+
+    cursor: pointer;
+
+    /* for Firefox */
+    -moz-appearance: none;
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+    -webkit-appearance: none;
+}
+.select::-ms-expand {
+    /* IE */
+    display: none;
+    border: 1px solid #c8c5d1;
+    border-right: none;
+    background: #e7e5eb;
+    cursor: pointer;
+}
+
+.selectArrowUp,
+.selectArrowDown {
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 103px;
+
+    width: 12px;
+    height: 12px;
+
+    background: url(../assets/arrowDownSelect.svg) no-repeat center;
+    pointer-events: none;
+}
+
+.selectArrowUp {
+    background: url(../assets/arrowUpSelect.svg) no-repeat center;
+}
+
+.selectLists {
+    position: absolute;
+    top: 35px;
+    left: -1px;
+    z-index: 2;
+
+    border: 1px solid #c8c5d1;
+    background-color: #f4f3f6;
+}
+
+.selectListsItem {
+    width: 121px;
+    padding: 9.5px 12px;
+
+    font-size: 12px;
+}
+
+.selectListsItem:hover,
+.selectListsItem:focus {
+    cursor: pointer;
+    background-color: #e9e7eb;
+}
+
+.inputContact {
+    width: 241px;
+    height: 37px;
+
+    color: #b0b0b0;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 8.5px 12px;
+
+    border: 1px solid #c8c5d1;
+    border-left: none;
+}
+
+.deleteBtn {
+    width: 27px;
+    height: 100%;
+
+    border: 1px solid #c8c5d1;
+    border-left: none;
+
+    cursor: pointer;
+
+    background-color: #e7e5eb;
+    background-image: url(../assets/deleteBtn.svg);
+    background-position: center;
+    background-repeat: no-repeat;
 }
