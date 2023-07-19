@@ -1,0 +1,383 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+
+/* Сбрасываем дефолтные стили и устанавливаем своим */
+body {
+    background: #f5f5f5;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    color: #333;
+    font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    padding: 0;
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    color: #333;
+    font-weight: 400;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+input,
+button {
+    border: none;
+    background: none;
+    outline: none;
+    color: #b0b0b0;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+ul,
+li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+/* Начало основной стилизации */
+.wrapper {
+    position: relative;
+    z-index: 0;
+
+    width: 1024px;
+    height: 700px;
+    margin: 0 auto;
+}
+
+/* Стили для навигации с формой поиска */
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+
+    width: 100%;
+    height: auto;
+    padding: 20px;
+
+    background: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navUserIcon {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    z-index: 0;
+
+    background-image: url(../assets/userIcon.svg);
+}
+
+.navUserIconFill {
+    fill: #9873ff;
+}
+
+.navUserIconContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.navSearchForm {
+    margin-left: 53px;
+    width: 581px;
+}
+
+.navSearchFormInput {
+    width: 100%;
+    padding: 12px 16px 13px 16px;
+    border: 1px solid rgba(51, 51, 51, 0.2);
+}
+
+.navSearchFormInput::placeholder {
+    color: var(--txt-grey, #b0b0b0);
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Стили для экран где будут отображаться данные */
+.headScreen {
+    width: 100%;
+    padding: 40px 20px 102px 20px;
+}
+
+.headScreenTitle {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.headScreenData {
+    width: 100%;
+    height: auto;
+    margin: 10px 0 40px 0;
+}
+
+.table {
+    border-collapse: collapse;
+}
+
+.trHeadTh {
+    padding-bottom: 8px;
+    vertical-align: bottom;
+}
+
+.trHeadThData {
+    text-align: start;
+
+    color: #b0b0b0;
+    font-size: 12px;
+    font-weight: 400;
+
+    padding-left: 10px;
+}
+
+.trHeadThData-first {
+    text-align: center;
+    margin-right: 8px;
+}
+
+.trHeadThData-second {
+    margin-right: 12px;
+}
+
+.trHeadThData-third {
+    width: 128px;
+    margin-right: 29px;
+}
+.trHeadThData-fourth {
+    width: 128px;
+    margin-right: 28px;
+}
+
+.trHeadThData-fiveth {
+    width: 108px;
+    margin-right: 40px;
+}
+
+.trHeadThData-sixth {
+    width: 85px;
+    margin-right: 20px;
+}
+
+.trHeadThData-seventh {
+    width: 74px;
+    margin-right: 20px;
+}
+
+.trHeadThDataArrowDown,
+.trHeadThDataArrowUp {
+    background: url(../assets/arrowUp.svg) no-repeat left;
+    padding-left: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #9873ff;
+}
+
+.trHeadThDataArrowDown {
+    background: url(../assets/arrowDown.svg) no-repeat left;
+}
+
+.tBody {
+    border: none;
+    background: #fff;
+    width: 100%;
+    height: 300px;
+}
+
+.trBody {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+
+    border-bottom: 1px solid #c8c5d187;
+}
+
+.thId {
+    display: inline-block;
+    padding: 10px;
+    align-items: flex-start;
+    gap: 10px;
+    color: #b0b0b0;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.thIdBody {
+    padding: 10px;
+}
+
+.tdFullName {
+    width: 241px;
+    padding: 0;
+}
+
+.tdFullNameBody {
+    padding: 10px;
+}
+
+.tdDateBody {
+    padding: 10px;
+}
+
+.tdDateBodyTime {
+    color: #b0b0b0;
+    padding-left: 10px;
+}
+
+.tdContacts {
+    padding: 0;
+}
+
+.tdContactsBody {
+    width: 108px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 7px;
+    column-gap: 7px;
+}
+
+.tdContactsBodyEmailIcon,
+.tdContactsBodyPhoneIcon,
+.tdContactsBodyFBIcon,
+.tdContactsBodyVKIcon,
+.tdContactsBodyDefaultIcon {
+    position: relative;
+    z-index: 0;
+
+    display: inline-block;
+    background: url(../assets/rest.svg) no-repeat center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.tdContactsBodyVKIcon {
+    background: url(../assets/vk.svg) no-repeat center;
+}
+
+.tdContactsBodyFBIcon {
+    background: url(../assets/facebook.svg) no-repeat center;
+}
+
+.tdContactsBodyPhoneIcon {
+    background: url(../assets/phone.svg) no-repeat center;
+}
+
+.tdContactsBodyEmailIcon {
+    background: url(../assets/email.svg) no-repeat center;
+}
+
+.tdCActionsBody {
+    display: flex;
+    column-gap: 30px;
+}
+
+.btnRemove,
+.btnEdit {
+    background: url(../assets/pen.svg) no-repeat left;
+    padding-left: 17px;
+}
+
+.btnRemove {
+    background: url(../assets/cross.svg) no-repeat left;
+}
+
+/* Создаем кнопку добавления клиента */
+.addClient {
+    display: block;
+    margin: 40px auto 0 auto;
+
+    background: url(../assets/addUser.svg) no-repeat 26.5px;
+    padding: 12.5px 26.5px 12.5px 58.5px;
+
+    color: #9873ff;
+    border: 1px solid #9873ff;
+}
+
+/* Модальное окно создания нового клиента */
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* background-color: rgba(0,0,0,0.5); */
+}
+
+.modalContent {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    box-shadow: 0px 0px 35px 0px rgba(0, 0, 0, 0.15);
+
+    width: 450px;
+    height: auto;
+
+    padding: 24px 30px 29px 30px;
+}
+
+.modalClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modalClose:hover,
+.modalClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modalTitle {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.modalForm {
+}
