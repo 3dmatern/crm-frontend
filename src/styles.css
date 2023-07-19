@@ -62,6 +62,10 @@ li {
     cursor: pointer;
 }
 
+.d-none {
+    display: none;
+}
+
 /* Начало основной стилизации */
 .wrapper {
     position: relative;
@@ -336,48 +340,129 @@ li {
 
 /* Модальное окно создания нового клиента */
 .modal {
-    position: fixed;
+    position: absolute;
     z-index: 1;
     left: 0;
     top: 0;
+    z-index: 0;
+
     width: 100%;
     height: 100%;
     overflow: auto;
-    /* background-color: rgba(0,0,0,0.5); */
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+    padding: 30px 0 29px 0;
     background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
     border: 1px solid #888;
     box-shadow: 0px 0px 35px 0px rgba(0, 0, 0, 0.15);
 
     width: 450px;
     height: auto;
-
-    padding: 24px 30px 29px 30px;
 }
 
 .modalClose {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 999;
+
+    width: 29px;
+    height: 29px;
+    background: url(../assets/closeModal.svg) no-repeat center;
 }
 
 .modalClose:hover,
 .modalClose:focus {
-    color: black;
-    text-decoration: none;
     cursor: pointer;
 }
 
 .modalTitle {
+    margin: 0 0 30px 32px;
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
 }
 
+.clientId {
+    position: absolute;
+    top: 36px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    color: #b0b0b0;
+    font-size: 12px;
+}
+
 .modalForm {
+    width: 100%;
+    text-align: center;
+}
+
+.modalInput {
+    width: 390px;
+    margin-bottom: 32px;
+    padding: 4px;
+    border-bottom: 1px solid #c8c5d1;
+
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.modalInput::placeholder {
+    color: #b0b0b0;
+}
+
+.addContact {
+    width: 100%;
+    height: 35px;
+
+    margin-bottom: 25px;
+    padding: 8px 0;
+
+    background: #c8c5d149;
+}
+
+.addContactBtn {
+    background: url(../assets/circlePlus.svg) no-repeat left;
+    padding-left: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.errorMessage {
+    width: 255px;
+    margin: 9px auto;
+    color: #f06a4d;
+    text-align: center;
+    font-size: 10px;
+}
+
+.submitBtn {
+    padding: 17px 35px;
+    background: #9873ff;
+
+    color: #fff;
+    font-weight: 600;
+}
+
+.cancelOrRemove {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+
+    color: #333;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration-line: underline;
 }

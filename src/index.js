@@ -338,7 +338,7 @@ addClient.innerText = "Добавить клиента";
 headScreenData.append(table, addClient);
 
 /* Функция создания модального окна с формой для создания и изменения клиента */
-const modalForm = ({ modalId, title, payload }) => {
+const createModalForm = (modalId, title, payload) => {
     const modal = document.createElement("div");
     modal.className = "modal";
     modal.id = modalId;
@@ -346,20 +346,98 @@ const modalForm = ({ modalId, title, payload }) => {
     const modalContent = document.createElement("div");
     modalContent.className = "modalContent";
 
-    const modalClose = document.createElement("span");
+    const modalClose = document.createElement("div");
     modalClose.className = "modalClose";
-    modalClose.innerHTML = "&times;";
 
     const modalTitle = document.createElement("h3");
     modalTitle.className = "modalTitle";
     modalTitle.innerText = title;
 
+    const clientId = document.createElement("span");
+    clientId.className = "clientId";
+    clientId.innerText = payload ? `ID: ${payload.id}` : null;
+
     const modalForm = document.createElement("form");
     modalForm.className = "modalForm";
+
+    const inputSurname = document.createElement("input");
+    inputSurname.className = "modalInput inputSurname";
+    inputSurname.id = "surname";
+    inputSurname.type = "text";
+    inputSurname.name = "surname";
+    inputSurname.placeholder = "Фамилия*";
+    payload ? (inputSurname.value = payload.surname) : null;
+
+    const inputName = document.createElement("input");
+    inputName.className = "modalInput inputName";
+    inputName.id = "name";
+    inputName.type = "text";
+    inputName.name = "name";
+    inputName.placeholder = "Имя*";
+    payload ? (inputName.value = payload.name) : null;
+
+    const inputPatronymic = document.createElement("input");
+    inputPatronymic.className = "modalInput inputName";
+    inputPatronymic.id = "patronymic";
+    inputPatronymic.type = "text";
+    inputPatronymic.name = "patronymic";
+    inputPatronymic.placeholder = "Отчество*";
+    payload ? (inputPatronymic.value = payload.patronymic) : null;
+
+    const addContact = document.createElement("div");
+    addContact.className = "addContact";
+
+    const addContactBtn = document.createElement("button");
+    addContactBtn.className = "addContactBtn pointer";
+    addContactBtn.textContent = "Добавить контакт";
+    addContact.append(addContactBtn);
+
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "errorMessage d-none";
+    errorMessage.innerText =
+        "Ошибка: новая модель организационной деятельности предполагает независимые способы реализации поставленных обществом задач!";
+
+    const submitBtn = document.createElement("button");
+    submitBtn.className = "submitBtn";
+    submitBtn.innerText = "Сохранить";
+
+    const cancelOrRemove = document.createElement("button");
+    cancelOrRemove.className = "cancelOrRemove pointer";
+    cancelOrRemove.innerText = payload ? "Удалить" : "Отменить";
+
+    modalForm.append(
+        inputSurname,
+        inputName,
+        inputPatronymic,
+        addContact,
+        errorMessage,
+        submitBtn,
+        cancelOrRemove
+    );
+
+    payload && modalContent.append(clientId);
+    modalContent.append(modalClose, modalTitle, modalForm);
+    modal.append(modalContent);
+
+    return modal;
 };
 
 /* Итог */
-wrapper.append(headScreen);
+const modal = createModalForm("createClient", "Новый клиент");
+wrapper.append(headScreen, modal);
+
+const contacts = [
+    { id: "1", label: "vk", value: "Vk" },
+    { id: "2", label: "fb", value: "Facebook" },
+    { id: "3", label: "email", value: "Facebook" },
+];
+
+const inputSelect = document.createElement("input");
+inputSelect.className = "modalInput inputName";
+inputSelect.id = "patronymic";
+inputSelect.type = "text";
+inputSelect.name = "patronymic";
+inputSelect.placeholder = "Отчество*";
 
 /* Функция форматирования даты */
 function formatDate(date) {
