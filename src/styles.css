@@ -153,6 +153,8 @@ li {
 .headScreenData {
     width: 100%;
     height: auto;
+    table-layout: fixed;
+    border: none;
     margin: 10px 0 40px 0;
 }
 
@@ -173,6 +175,10 @@ li {
     font-weight: 400;
 
     padding-left: 10px;
+}
+
+.trHeadThDataActive {
+    color: #9873ff;
 }
 
 .trHeadThData-first {
@@ -222,10 +228,23 @@ li {
 }
 
 .tBody {
+    position: relative;
+    z-index: 0;
     border: none;
     background: #fff;
     width: 100%;
     height: 300px;
+}
+
+.tBodyScroll {
+    height: 300px;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+.tBodyScroll::-webkit-scrollbar {
+    width: 0 !important;
 }
 
 .trBody {
@@ -311,6 +330,52 @@ li {
     background: url(../assets/email.svg) no-repeat center;
 }
 
+.toggleBtnContact {
+    width: 16px;
+    height: 16px;
+    padding: 2.5px 3px;
+    text-align: center;
+
+    background: url(../assets/circle.svg) no-repeat center;
+}
+
+.contactInfoWrapper {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background: url(../assets/info.svg) no-repeat center;
+    width: 133px;
+    height: 37.3px;
+
+    text-align: center;
+    padding: 4px 0 7px 0;
+}
+
+.contactInfo {
+    color: #fff;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.contactInfoId {
+    color: #b89eff;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration-line: underline;
+}
+
+.toggleBtnContent {
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
 .tdCActionsBody {
     display: flex;
     column-gap: 30px;
@@ -350,7 +415,38 @@ li {
     transition: 0.3s;
 }
 
-/* Модальное окно создания нового клиента */
+/* Стили спинера загрузки данных */
+.spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+
+    background-color: #fff;
+}
+
+.spinner-icon {
+    width: 36px;
+    height: 36px;
+    /* border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db; */
+    border-radius: 50%;
+    background: url(../assets/spiner.svg) no-repeat center;
+    animation: spinner-rotate 1s linear infinite;
+}
+
+@keyframes spinner-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Стили модального окна */
 .modal {
     position: absolute;
     z-index: 1;
@@ -364,6 +460,7 @@ li {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.modalContentDelete,
 .modalContent {
     position: absolute;
     top: 50%;
@@ -378,6 +475,11 @@ li {
 
     width: 450px;
     height: auto;
+}
+
+.modalContentDeleted {
+    padding: 22px 0 27px 0;
+    text-align: center;
 }
 
 .modalClose {
@@ -403,19 +505,53 @@ li {
     font-weight: 700;
 }
 
+.modalTitleDeleted {
+    text-align: center;
+    margin-bottom: 11px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.modalTextDeleted {
+    width: 275px;
+    margin: 0 auto;
+
+    color: #333;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
 .clientId {
     position: absolute;
     top: 36px;
     left: 50%;
-    transform: translate(-50%, 0);
 
     color: #b0b0b0;
     font-size: 12px;
 }
 
+.modalFormDeleted,
 .modalForm {
     width: 100%;
     text-align: center;
+}
+
+.modalFormDeleted {
+    margin-top: 25px;
+}
+
+.labelStar,
+.modalLabel {
+    color: #b0b0b0;
+    font-size: 10px;
+}
+
+.labelStar {
+    color: #9873ff;
 }
 
 .modalInput {
@@ -424,23 +560,42 @@ li {
     padding: 4px;
     border-bottom: 1px solid #c8c5d1;
 
+    color: #333;
     font-size: 14px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
+}
+
+.modalInputDeleted {
+    width: 0;
+    padding: 0;
+    border: 0;
+    line-height: 0;
 }
 
 .modalInput::placeholder {
     color: #b0b0b0;
+    font-weight: 400;
 }
 
 .addContact {
     width: 100%;
-    height: auto;
 
     margin-bottom: 25px;
     padding: 8px 0;
 
     background: #c8c5d149;
+}
+
+.addContactScroll {
+    overflow-y: scroll;
+    max-height: 300px;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+.addContactScroll::-webkit-scrollbar {
+    width: 0 !important;
 }
 
 .addContactBtn {
@@ -580,10 +735,10 @@ li {
     width: 241px;
     height: 37px;
 
-    color: #b0b0b0;
+    color: #333;
     font-size: 14px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: normal;
     padding: 8.5px 12px;
 
