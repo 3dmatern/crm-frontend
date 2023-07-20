@@ -394,6 +394,7 @@ function createModalForm(modalId, title) {
                 .classList.remove("notValid");
         } else {
             document.querySelector(".starSurname").classList.remove("d-none");
+            inputSurname.placeholder = "Фамилия";
         }
     });
     groupSurname.append(inputSurname);
@@ -414,6 +415,7 @@ function createModalForm(modalId, title) {
             document.querySelector(".inputName").classList.remove("notValid");
         } else {
             document.querySelector(".starName").classList.remove("d-none");
+            inputName.placeholder = "Имя";
         }
     });
     groupName.append(inputName);
@@ -1047,9 +1049,35 @@ function createClient(clientData) {
             // Обработка полученного ответа
             console.log(data); // Вывод данных в консоль
             // Дальнейшая обработка ответа
+            const surname = document.querySelector("#surname");
+            const name = document.querySelector("#name");
+            const starSurname = document.querySelector(".starSurname");
+            const starName = document.querySelector(".starName");
+            if (data.errors) {
+                console.log(data.errors);
+                data.errors.map((err) => {
+                    switch (err.field) {
+                        case "surname":
+                            surname.classList.add("notValid");
+                            surname.placeholder = err.message;
+                            starSurname.classList.add("d-none");
+                            break;
+                        case "name":
+                            name.classList.add("notValid");
+                            name.placeholder = err.message;
+                            starName.classList.add("d-none");
+                            break;
+
+                        default:
+                            break;
+                    }
+                });
+            }
         })
         .catch((error) => {
             console.error("Ошибка при отправке данных:", error);
+            const errors = document.querySelector(".errorMessage");
+            errors.classList.remove("d-none");
         });
 }
 
@@ -1168,6 +1196,8 @@ function deleteClient(id) {
         })
         .catch((error) => {
             console.error("Ошибка при удалении клиента:", error);
+            const errors = document.querySelector(".errorMessage");
+            errors.classList.remove("d-none");
         });
 }
 
