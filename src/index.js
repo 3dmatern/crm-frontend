@@ -41,101 +41,7 @@ const headers = [
         sort: "",
         clicked: false,
     },
-    {
-        id: "",
-        title: "",
-        className: "trHeadThData-seventh",
-        sort: "",
-        clicked: false,
-    },
 ];
-
-// let clients = [
-//     {
-//         id: "123455",
-//         surname: "Скворцов",
-//         name: "Денис",
-//         lastName: "Юрьевич",
-//         created_at: 1689761902637,
-//         updated_at: 1689770902637,
-//         contacts: [
-//             {
-//                 id: "1",
-//                 label: "vk",
-//                 value: "https://vk.com/d_matern",
-//                 name: "VK",
-//             },
-//             {
-//                 id: "2",
-//                 label: "fb",
-//                 value: "https://www.facebook.com/profile.php?id=100013360546605",
-//                 name: "Facebook",
-//             },
-//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-//             { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
-//             { id: "5", label: "test", value: "test", name: "Test" },
-//             { id: "6", label: "test", value: "test", name: "Test" },
-//             { id: "7", label: "test", value: "test", name: "Test" },
-//             { id: "8", label: "test", value: "test", name: "Test" },
-//             { id: "9", label: "test", value: "test", name: "Test" },
-//             { id: "10", label: "test", value: "test", name: "Test" },
-//         ],
-//     },
-//     {
-//         id: "123456",
-//         surname: "Куприянов",
-//         name: "Арсений",
-//         lastName: "Валерьевич",
-//         created_at: 1689769202637,
-//         updated_at: 1689770902637,
-//         contacts: [
-//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-//             { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
-//         ],
-//     },
-//     {
-//         id: "123457",
-//         surname: "Константинопольская",
-//         name: "Людмила",
-//         lastName: "Александровна",
-//         created_at: 1689769902637,
-//         updated_at: 1689780902637,
-//         contacts: [
-//             {
-//                 id: "2",
-//                 label: "fb",
-//                 value: "https:/facebook.com",
-//                 name: "Facebook",
-//             },
-//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-//             { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
-//         ],
-//     },
-//     {
-//         id: "123458",
-//         surname: "Дмитриевский",
-//         name: "Олег",
-//         lastName: "Алексеевич",
-//         created_at: 1689769902637,
-//         updated_at: 1689970902637,
-//         contacts: [
-//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-//         ],
-//     },
-//     {
-//         id: "123459",
-//         surname: "Александрова",
-//         name: "Татьяна",
-//         lastName: "Павловна",
-//         created_at: 1689769902637,
-//         updated_at: 1689790902637,
-//         contacts: [
-//             { id: "1", label: "vk", value: "https:/vk.com", name: "VK" },
-//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-//             { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
-//         ],
-//     },
-// ];
 
 getClients();
 /* Находим корневой элемент в DOM (точка входа) */
@@ -248,8 +154,8 @@ const createDataBody = ({
     surname,
     name,
     lastName,
-    created_at,
-    updated_at,
+    createdAt,
+    updatedAt,
     contacts,
 }) => {
     const tr = document.createElement("tr");
@@ -276,11 +182,11 @@ const createDataBody = ({
     // Дата и время создания клиента
     const tdCreatedAt = document.createElement("td");
     const tdCreatedAtBody = document.createElement("div");
-    tdCreatedAtBody.textContent = formatDate(created_at).dayMonthYear;
+    tdCreatedAtBody.textContent = formatDate(createdAt).dayMonthYear;
     // Время
     const tdCreatedAtBodyTime = document.createElement("span");
     tdCreatedAtBodyTime.className = "tdDateBodyTime";
-    tdCreatedAtBodyTime.textContent = formatDate(created_at).time;
+    tdCreatedAtBodyTime.textContent = formatDate(createdAt).time;
     tdCreatedAtBody.append(tdCreatedAtBodyTime);
     tdCreatedAt.append(tdCreatedAtBody);
 
@@ -288,11 +194,11 @@ const createDataBody = ({
     const tdUpdatedAt = document.createElement("td");
     const tdUpdatedAtBody = document.createElement("div");
     tdUpdatedAtBody.className = "tdDateBody";
-    tdUpdatedAtBody.textContent = formatDate(updated_at).dayMonthYear;
+    tdUpdatedAtBody.textContent = formatDate(updatedAt).dayMonthYear;
     // Время
     const tdUpdatedAtBodyTime = document.createElement("span");
     tdUpdatedAtBodyTime.className = "tdDateBodyTime";
-    tdUpdatedAtBodyTime.textContent = formatDate(updated_at).time;
+    tdUpdatedAtBodyTime.textContent = formatDate(updatedAt).time;
     tdUpdatedAtBody.append(tdUpdatedAtBodyTime);
     tdUpdatedAt.append(tdUpdatedAtBody);
 
@@ -307,7 +213,24 @@ const createDataBody = ({
 
     contacts.forEach((contact, index) => {
         const item = document.createElement("a");
-        item.href = contact.value;
+        switch (contact.type) {
+            case "tel":
+                item.href = "tel:" + contact.value;
+                break;
+            case "email":
+                item.href = "mailto:" + contact.value;
+                break;
+            case "vk":
+                item.href = contact.value;
+                break;
+            case "fb":
+                item.href = contact.value;
+                break;
+
+            default:
+                item.href = "./";
+                break;
+        }
         index > 3 ? (item.className = "d-none hidden-element") : null;
 
         const contactInfoWrapper = document.createElement("div");
@@ -320,15 +243,15 @@ const createDataBody = ({
         const contactInfoId = document.createElement("span");
         contactInfoId.className = "contactInfoId";
 
-        switch (contact.label) {
+        switch (contact.type) {
             case "vk":
                 const vkId = contact.value.split("/");
-                contactInfo.textContent = contact.label.toUpperCase() + ": ";
+                contactInfo.textContent = contact.type.toUpperCase() + ": ";
                 contactInfoId.textContent = vkId[3];
                 break;
             case "fb":
                 const fbId = contact.value.split("=");
-                contactInfo.textContent = contact.label.toUpperCase() + ": ";
+                contactInfo.textContent = contact.type.toUpperCase() + ": ";
                 contactInfoId.textContent = fbId[1];
                 break;
 
@@ -342,7 +265,7 @@ const createDataBody = ({
         contactInfoWrapper.append(contactInfo);
         item.append(contactInfoWrapper);
 
-        switch (contact.label) {
+        switch (contact.type) {
             case "vk":
                 item.className += " tdContactsBodyVKIcon";
                 break;
@@ -380,6 +303,8 @@ const createDataBody = ({
     toggleBtnContact.append(toggleBtnContent);
     contacts.length > 4 && tdContactsBody.append(toggleBtnContact);
     tdContacts.append(tdContactsBody);
+
+    toggleBtnContact.addEventListener("click", () => {});
 
     // Действия:
     // Кнопка "Изменить"
@@ -432,7 +357,7 @@ headScreenData.append(table, addClient);
 function createModalForm(modalId, title) {
     const modal = document.createElement("div");
     modal.className = "modal d-none";
-    modal.id = "modalForm";
+    modal.id = "createModal";
 
     const modalContent = document.createElement("div");
     modalContent.className = "modalContent";
@@ -521,8 +446,8 @@ function createModalForm(modalId, title) {
         });
 
     document.onclick = (e) => {
-        if (e.target === document.getElementById("modalForm")) {
-            document.getElementById("modalForm").remove();
+        if (e.target === document.getElementById("createModal")) {
+            document.getElementById("createModal").remove();
         }
     };
     return modal;
@@ -532,7 +457,7 @@ function createModalForm(modalId, title) {
 function updateModalForm(modalId, title, payload) {
     const modal = document.createElement("div");
     modal.className = "modal d-none";
-    modal.id = "modalForm";
+    modal.id = "updateModal";
 
     const modalContent = document.createElement("div");
     modalContent.className = "modalContent";
@@ -558,12 +483,15 @@ function updateModalForm(modalId, title, payload) {
     inputClientId.name = "clientId";
     inputClientId.value = payload.id;
 
+    const inputGroupFirst = document.createElement("div");
+    inputGroupFirst.className = "inputGroup";
+
     const labelSurname = document.createElement("label");
     labelSurname.className = "modalLabel labelSurname";
     labelSurname.textContent = "Фамилия";
     labelSurname.setAttribute("for", "surname");
 
-    const labelStar = document.createElement("span");
+    const labelStar = document.createElement("div");
     labelStar.className = "labelStar";
     labelStar.textContent = "*";
     labelSurname.append(labelStar);
@@ -575,6 +503,10 @@ function updateModalForm(modalId, title, payload) {
     inputSurname.name = "surname";
     inputSurname.placeholder = "Фамилия*";
     inputSurname.value = payload.surname;
+    inputGroupFirst.append(labelSurname, inputSurname);
+
+    const inputGroupSecond = document.createElement("div");
+    inputGroupSecond.className = "inputGroup";
 
     const labelName = document.createElement("label");
     labelName.className = "modalLabel labelName";
@@ -589,6 +521,10 @@ function updateModalForm(modalId, title, payload) {
     inputName.name = "name";
     inputName.placeholder = "Имя*";
     inputName.value = payload.name;
+    inputGroupSecond.append(labelName, inputName);
+
+    const inputGroupThird = document.createElement("div");
+    inputGroupThird.className = "inputGroup";
 
     const labelLastName = document.createElement("label");
     labelLastName.className = "modalLabel labelLastName";
@@ -603,6 +539,7 @@ function updateModalForm(modalId, title, payload) {
     inputLastName.name = "lastName";
     inputLastName.placeholder = "Отчество*";
     inputLastName.value = payload.lastName;
+    inputGroupThird.append(labelLastName, inputLastName);
 
     const addContact = document.createElement("div");
     addContact.className =
@@ -633,14 +570,15 @@ function updateModalForm(modalId, title, payload) {
     submitBtn.onclick = submitFormUpdate;
 
     const remove = document.createElement("div");
-    remove.className = "cancelOrRemove pointer";
+    remove.className = "cancelOrRemove pointer deleteClientLink";
+    remove.id = payload.id;
     remove.textContent = "Удалить клиента";
 
     modalForm.append(
         inputClientId,
-        inputSurname,
-        inputName,
-        inputLastName,
+        inputGroupFirst,
+        inputGroupSecond,
+        inputGroupThird,
         addContact,
         errorMessage,
         submitBtn,
@@ -659,12 +597,13 @@ function updateModalForm(modalId, title, payload) {
     });
 
     remove.addEventListener("click", () => {
+        wrapper.append(deleteClientModal(payload.id));
         modal.remove();
     });
 
     window.onclick = (e) => {
-        if (e.target == document.getElementById("modalForm")) {
-            document.getElementById("modalForm").remove();
+        if (e.target == document.getElementById("updateModal")) {
+            document.getElementById("updateModal").remove();
         }
     };
     return modal;
@@ -676,10 +615,10 @@ function createContact(payload) {
     contactWraper.className = "contactWraper";
 
     const contacts = [
-        { id: "1", label: "tel", value: "Доп. телефон" },
-        { id: "2", label: "email", value: "Email" },
-        { id: "3", label: "vk", value: "VK" },
-        { id: "4", label: "fb", value: "Facebook" },
+        { type: "tel", value: "Доп. телефон" },
+        { type: "email", value: "Email" },
+        { type: "vk", value: "VK" },
+        { type: "fb", value: "Facebook" },
     ];
 
     const selectArrow = document.createElement("button");
@@ -690,7 +629,7 @@ function createContact(payload) {
 
     const select = document.createElement("div");
     select.className = "select";
-    select.textContent = payload?.name || "Телефон";
+    select.textContent = (payload && payload.type) || "Телефон";
 
     const selectLists = document.createElement("ul");
     selectLists.className = "selectLists d-none";
@@ -700,7 +639,7 @@ function createContact(payload) {
     inputContact.name = "tel";
     inputContact.type = "text";
     inputContact.placeholder = "Введите данные контакта";
-    inputContact.value = payload?.value || null;
+    inputContact.value = (payload && payload.value) || null;
 
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "deleteBtn";
@@ -720,9 +659,9 @@ function createContact(payload) {
     });
 
     contacts.forEach((c) => {
-        const li = document.createElement("ul");
+        const li = document.createElement("li");
         li.className = "selectListsItem";
-        li.id = c.label;
+        li.id = c.type;
         li.textContent = c.value;
 
         li.addEventListener("click", () => {
@@ -757,7 +696,7 @@ function createSpinner() {
 }
 
 /* Функция для показа скрытых контактов */
-const toggleElements = () => {
+function toggleElements() {
     const elementsToToggle = document.querySelectorAll(".hidden-element");
 
     elementsToToggle.forEach((element) => {
@@ -767,13 +706,7 @@ const toggleElements = () => {
             element.classList.add("d-none");
         }
     });
-};
-
-const toggleButton = document.querySelector(".toggleBtnContact");
-toggleButton?.addEventListener("click", () => {
-    toggleElements();
-    toggleButton.classList.add("d-none");
-});
+}
 
 /* Функция вызова модального окна для изменения данных */
 const myTable = document.querySelector("#myTable");
@@ -808,13 +741,13 @@ const handleDeleteBtn = (e) => {
 myTable.addEventListener("click", (e) => {
     if (e.target.classList.contains("btnRemove")) {
         const clientId = handleDeleteBtn(e);
-        const modal = deleteModal(clientId);
+        const modal = deleteClientModal(clientId);
         modal.classList.remove("d-none");
         wrapper.append(modal);
     }
 });
 
-function deleteModal(clientId) {
+function deleteClientModal(clientId) {
     const modal = document.createElement("div");
     modal.className = "modal";
     modal.id = "deleteModal";
@@ -907,6 +840,13 @@ window.onload = function () {
             }
         }
     });
+
+    // Метод для отображения скрытых контактов
+    const toggleButton = document.querySelector(".toggleBtnContact");
+    toggleButton.addEventListener("click", () => {
+        toggleElements();
+        toggleButton.remove();
+    });
 };
 
 function sortTable(columnIndex) {
@@ -981,6 +921,9 @@ function getClients() {
             let table = document.getElementById("myTable");
             let tbody = table.getElementsByTagName("tbody")[0];
 
+            if (Object.keys(data).length === 0) {
+                headScreenData.prepend(table, createSpinner());
+            }
             // Очищаем содержимое tbody перед добавлением данных
             tbody.innerHTML = "";
 
@@ -991,7 +934,6 @@ function getClients() {
         })
         .catch((error) => {
             console.error("Ошибка при получении данных:", error);
-            headScreenData.append(table, createSpinner(), addClient);
         });
 }
 
@@ -1000,7 +942,6 @@ function submitFormCreate(e) {
     e.preventDefault();
     // Поиск формы
     const form = document.querySelector("#createClient");
-    console.log(form);
     const inputs = form.querySelectorAll("input");
 
     let formData = {};

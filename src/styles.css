@@ -296,12 +296,14 @@ li {
     z-index: 0;
 
     display: inline-block;
-    background: url(../assets/rest.svg) no-repeat center;
     width: 16px;
     height: 16px;
     border-radius: 50%;
 }
 
+.tdContactsBodyDefaultIcon {
+    background: url(../assets/rest.svg) no-repeat center;
+}
 .tdContactsBodyVKIcon {
     background: url(../assets/vk.svg) no-repeat center;
 }
@@ -532,18 +534,26 @@ li {
     margin-top: 25px;
 }
 
-.labelStar,
+.inputGroup {
+    text-align: start;
+}
+
 .modalLabel {
+    margin-left: 30px;
     color: #b0b0b0;
     font-size: 10px;
 }
 
 .labelStar {
+    display: inline;
     color: #9873ff;
+    font-size: 10px;
 }
 
 .modalInput {
+    display: block;
     width: 390px;
+    margin: 0 auto;
     margin-bottom: 32px;
     padding: 4px;
     border-bottom: 1px solid #c8c5d1;
@@ -556,9 +566,12 @@ li {
 
 .inputClientId,
 .modalInputDeleted {
+    position: absolute;
     width: 0;
+    height: 0;
     padding: 0;
     border: 0;
+    font-size: 0;
     line-height: 0;
 }
 
@@ -578,7 +591,7 @@ li {
 
 .addContactScroll {
     overflow-y: scroll;
-    max-height: 300px;
+    max-height: 240px;
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
 }
