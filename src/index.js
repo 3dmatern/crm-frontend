@@ -1,10 +1,62 @@
+const headers = [
+    {
+        id: "1",
+        title: "ID",
+        className: "trHeadThData-first",
+        sort: "",
+        clicked: true,
+    },
+    {
+        id: "2",
+        title: "Фамилия Имя Отчество",
+        className: "trHeadThData-second",
+        sort: "А-Я",
+        clicked: true,
+    },
+    {
+        id: "3",
+        title: "Дата и время создания",
+        className: "trHeadThData-third",
+        sort: "",
+        clicked: true,
+    },
+    {
+        id: "4",
+        title: "Последние изменения",
+        className: "trHeadThData-fourth",
+        sort: "",
+        clicked: true,
+    },
+    {
+        id: "5",
+        title: "Контакты",
+        className: "trHeadThData-fiveth",
+        sort: "",
+        clicked: false,
+    },
+    {
+        id: "6",
+        title: "Действия",
+        className: "trHeadThData-sixth",
+        sort: "",
+        clicked: false,
+    },
+    {
+        id: "",
+        title: "",
+        className: "trHeadThData-seventh",
+        sort: "",
+        clicked: false,
+    },
+];
+
 const clients = [
     {
         id: "123455",
         surname: "Скворцов",
         name: "Денис",
         patronymic: "Юрьевич",
-        created_at: 1689769902637,
+        created_at: 1689761902637,
         updated_at: 1689770902637,
         contacts: [
             {
@@ -34,7 +86,7 @@ const clients = [
         surname: "Куприянов",
         name: "Арсений",
         patronymic: "Валерьевич",
-        created_at: 1689769902637,
+        created_at: 1689769202637,
         updated_at: 1689770902637,
         contacts: [
             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
@@ -47,7 +99,7 @@ const clients = [
         name: "Людмила",
         patronymic: "Александровна",
         created_at: 1689769902637,
-        updated_at: 1689770902637,
+        updated_at: 1689780902637,
         contacts: [
             {
                 id: "2",
@@ -65,7 +117,7 @@ const clients = [
         name: "Олег",
         patronymic: "Алексеевич",
         created_at: 1689769902637,
-        updated_at: 1689770902637,
+        updated_at: 1689970902637,
         contacts: [
             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
         ],
@@ -76,7 +128,7 @@ const clients = [
         name: "Татьяна",
         patronymic: "Павловна",
         created_at: 1689769902637,
-        updated_at: 1689770902637,
+        updated_at: 1689790902637,
         contacts: [
             { id: "1", label: "vk", value: "https:/vk.com", name: "VK" },
             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
@@ -138,64 +190,13 @@ headScreen.append(title, headScreenData);
 // Создаем таблицу
 const table = document.createElement("table");
 table.className = "table";
+table.id = "myTable";
 
 const tHead = document.createElement("thead");
 const trHead = document.createElement("tr");
 
-const headers = [
-    {
-        id: "1",
-        title: "ID",
-        className: "trHeadThData-first",
-        sort: "",
-        clicked: true,
-    },
-    {
-        id: "2",
-        title: "Фамилия Имя Отчество",
-        className: "trHeadThData-second",
-        sort: "А-Я",
-        clicked: true,
-    },
-    {
-        id: "3",
-        title: "Дата и время создания",
-        className: "trHeadThData-third",
-        sort: "",
-        clicked: true,
-    },
-    {
-        id: "4",
-        title: "Последние изменения",
-        className: "trHeadThData-fourth",
-        sort: "",
-        clicked: true,
-    },
-    {
-        id: "5",
-        title: "Контакты",
-        className: "trHeadThData-fiveth",
-        sort: "",
-        clicked: false,
-    },
-    {
-        id: "6",
-        title: "Действия",
-        className: "trHeadThData-sixth",
-        sort: "",
-        clicked: false,
-    },
-    {
-        id: "",
-        title: "",
-        className: "trHeadThData-seventh",
-        sort: "",
-        clicked: false,
-    },
-];
-
 // Создаем фунцию для генерации заголовков таблицы
-const createDataHeader = ({ id, title, className, sort, clicked }) => {
+const createDataHeader = ({ id, thId, title, className, sort, clicked }) => {
     const th = document.createElement("th");
     th.className = "trHeadTh";
     th.scope = "col";
@@ -209,7 +210,7 @@ const createDataHeader = ({ id, title, className, sort, clicked }) => {
     th.append(header);
 
     const span = document.createElement("span");
-    span.className = "trHeadThDataArrowUp";
+    span.className = "trHeadThDataArrowDown";
     sort !== "" ? (span.textContent = sort) : null;
 
     clicked && header.append(span);
@@ -217,12 +218,12 @@ const createDataHeader = ({ id, title, className, sort, clicked }) => {
     header.addEventListener("click", () => {
         if (span.textContent === "А-Я") {
             span.textContent = "Я-А";
-            span.classList.add("trHeadThDataArrowDown");
+            span.classList.add("trHeadThDataArrowUp");
         } else if (span.textContent === "Я-А") {
             span.textContent = "А-Я";
-            span.classList.remove("trHeadThDataArrowDown");
+            span.classList.remove("trHeadThDataArrowUp");
         } else {
-            span.classList.toggle("trHeadThDataArrowDown");
+            span.classList.toggle("trHeadThDataArrowUp");
         }
     });
 
@@ -238,7 +239,7 @@ tHead.append(trHead);
 
 // Создаем тело таблицы
 const tBody = document.createElement("tbody");
-tBody.className = clients.length > 4 ? "tBody tBodyScroll" : "tBody";
+tBody.className = "tBody";
 
 // Создаем фунцию для вывода каждого клиента в таблицу
 const createDataBody = ({
@@ -773,6 +774,89 @@ function createDeleteModal(clientId) {
         }
     };
     return modal;
+}
+
+/* Сортировка по заголовкам таблицы */
+const getAllTh = document.querySelectorAll("th");
+getAllTh.forEach((th, index) => {
+    if (index < 4) {
+        th.onclick = () => sortTable(index);
+    }
+});
+
+let sortDirections = [1, 0, 0, 0]; // Устанавливаем активную сортировку по ID
+
+window.onload = function () {
+    document
+        .querySelector(".trHeadThData-first")
+        .children[0].classList.add("trHeadThDataArrowUp");
+    sortTable(0); // Вызываем сортировку по ID при загрузке страницы
+
+    // Метод для searchInput
+    let searchInput = document.querySelector(".navSearchFormInput");
+    searchInput.addEventListener("input", function () {
+        let searchText = this.value.toLowerCase();
+        let rows = document.getElementsByClassName("trBody");
+
+        for (let i = 0; i < rows.length; i++) {
+            let rowData = rows[i].textContent.toLowerCase();
+            if (rowData.includes(searchText)) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    });
+};
+
+function sortTable(columnIndex) {
+    let table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementById("myTable");
+    switching = true;
+
+    // Инвертирование текущего направления сортировки
+    sortDirections[columnIndex] ^= 1;
+
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+
+        for (i = 1; i < rows.length - 1; i++) {
+            shouldSwitch = false;
+
+            x = rows[i].cells[columnIndex];
+            y = rows[i + 1].cells[columnIndex];
+
+            if (compareColumnValues(x, y, columnIndex) > 0) {
+                shouldSwitch = true;
+                break;
+            }
+        }
+
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        }
+    }
+}
+
+function compareColumnValues(cell1, cell2, columnIndex) {
+    let value1, value2;
+
+    if (cell1.getAttribute("data-sort-type") === "date") {
+        value1 = new Date(cell1.innerHTML);
+        value2 = new Date(cell2.innerHTML);
+    } else {
+        value1 = cell1.innerHTML.toLowerCase();
+        value2 = cell2.innerHTML.toLowerCase();
+    }
+
+    // Учитываем текущее направление сортировки
+    if (sortDirections[columnIndex] === 0) {
+        return value1 > value2 ? 1 : -1;
+    } else {
+        return value1 < value2 ? 1 : -1;
+    }
 }
 
 /* Функция форматирования даты */

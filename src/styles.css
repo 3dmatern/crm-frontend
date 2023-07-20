@@ -216,15 +216,15 @@ li {
 
 .trHeadThDataArrowDown,
 .trHeadThDataArrowUp {
-    background: url(../assets/arrowUp.svg) no-repeat left;
+    background: url(../assets/arrowDown.svg) no-repeat left;
     padding-left: 12px;
     font-size: 10px;
     font-weight: 600;
     color: #9873ff;
 }
 
-.trHeadThDataArrowDown {
-    background: url(../assets/arrowDown.svg) no-repeat left;
+.trHeadThDataArrowUp {
+    background: url(../assets/arrowUp.svg) no-repeat left;
 }
 
 .tBody {
@@ -233,18 +233,6 @@ li {
     border: none;
     background: #fff;
     width: 100%;
-    height: 300px;
-}
-
-.tBodyScroll {
-    height: 300px;
-    overflow-x: auto;
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
-}
-
-.tBodyScroll::-webkit-scrollbar {
-    width: 0 !important;
 }
 
 .trBody {
