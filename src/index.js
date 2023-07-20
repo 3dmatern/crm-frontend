@@ -50,107 +50,93 @@ const headers = [
     },
 ];
 
-let clients = [
-    {
-        id: "123455",
-        surname: "Скворцов",
-        name: "Денис",
-        lastName: "Юрьевич",
-        created_at: 1689761902637,
-        updated_at: 1689770902637,
-        contacts: [
-            {
-                id: "1",
-                label: "vk",
-                value: "https://vk.com/d_matern",
-                name: "VK",
-            },
-            {
-                id: "2",
-                label: "fb",
-                value: "https://www.facebook.com/profile.php?id=100013360546605",
-                name: "Facebook",
-            },
-            { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-            { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
-            { id: "5", label: "test", value: "test", name: "Test" },
-            { id: "6", label: "test", value: "test", name: "Test" },
-            { id: "7", label: "test", value: "test", name: "Test" },
-            { id: "8", label: "test", value: "test", name: "Test" },
-            { id: "9", label: "test", value: "test", name: "Test" },
-            { id: "10", label: "test", value: "test", name: "Test" },
-        ],
-    },
-    {
-        id: "123456",
-        surname: "Куприянов",
-        name: "Арсений",
-        lastName: "Валерьевич",
-        created_at: 1689769202637,
-        updated_at: 1689770902637,
-        contacts: [
-            { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-            { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
-        ],
-    },
-    {
-        id: "123457",
-        surname: "Константинопольская",
-        name: "Людмила",
-        lastName: "Александровна",
-        created_at: 1689769902637,
-        updated_at: 1689780902637,
-        contacts: [
-            {
-                id: "2",
-                label: "fb",
-                value: "https:/facebook.com",
-                name: "Facebook",
-            },
-            { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-            { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
-        ],
-    },
-    {
-        id: "123458",
-        surname: "Дмитриевский",
-        name: "Олег",
-        lastName: "Алексеевич",
-        created_at: 1689769902637,
-        updated_at: 1689970902637,
-        contacts: [
-            { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-        ],
-    },
-    {
-        id: "123459",
-        surname: "Александрова",
-        name: "Татьяна",
-        lastName: "Павловна",
-        created_at: 1689769902637,
-        updated_at: 1689790902637,
-        contacts: [
-            { id: "1", label: "vk", value: "https:/vk.com", name: "VK" },
-            { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
-            { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
-        ],
-    },
-];
+// let clients = [
+//     {
+//         id: "123455",
+//         surname: "Скворцов",
+//         name: "Денис",
+//         lastName: "Юрьевич",
+//         created_at: 1689761902637,
+//         updated_at: 1689770902637,
+//         contacts: [
+//             {
+//                 id: "1",
+//                 label: "vk",
+//                 value: "https://vk.com/d_matern",
+//                 name: "VK",
+//             },
+//             {
+//                 id: "2",
+//                 label: "fb",
+//                 value: "https://www.facebook.com/profile.php?id=100013360546605",
+//                 name: "Facebook",
+//             },
+//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
+//             { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
+//             { id: "5", label: "test", value: "test", name: "Test" },
+//             { id: "6", label: "test", value: "test", name: "Test" },
+//             { id: "7", label: "test", value: "test", name: "Test" },
+//             { id: "8", label: "test", value: "test", name: "Test" },
+//             { id: "9", label: "test", value: "test", name: "Test" },
+//             { id: "10", label: "test", value: "test", name: "Test" },
+//         ],
+//     },
+//     {
+//         id: "123456",
+//         surname: "Куприянов",
+//         name: "Арсений",
+//         lastName: "Валерьевич",
+//         created_at: 1689769202637,
+//         updated_at: 1689770902637,
+//         contacts: [
+//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
+//             { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
+//         ],
+//     },
+//     {
+//         id: "123457",
+//         surname: "Константинопольская",
+//         name: "Людмила",
+//         lastName: "Александровна",
+//         created_at: 1689769902637,
+//         updated_at: 1689780902637,
+//         contacts: [
+//             {
+//                 id: "2",
+//                 label: "fb",
+//                 value: "https:/facebook.com",
+//                 name: "Facebook",
+//             },
+//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
+//             { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
+//         ],
+//     },
+//     {
+//         id: "123458",
+//         surname: "Дмитриевский",
+//         name: "Олег",
+//         lastName: "Алексеевич",
+//         created_at: 1689769902637,
+//         updated_at: 1689970902637,
+//         contacts: [
+//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
+//         ],
+//     },
+//     {
+//         id: "123459",
+//         surname: "Александрова",
+//         name: "Татьяна",
+//         lastName: "Павловна",
+//         created_at: 1689769902637,
+//         updated_at: 1689790902637,
+//         contacts: [
+//             { id: "1", label: "vk", value: "https:/vk.com", name: "VK" },
+//             { id: "3", label: "tel", value: "+375441234567", name: "Телефон" },
+//             { id: "4", label: "email", value: "test@mail.ru", name: "Email" },
+//         ],
+//     },
+// ];
 
-/* Получаем данные с backend */
-function getClients() {
-    fetch("http://localhost:3000/api/clients")
-        .then((response) => response.json())
-        .then((data) => {
-            // Обработка полученных данных
-            console.log(data); // Вывод данных в консоль
-            // Дальнейшая обработка данных
-            clients = data;
-        })
-        .catch((error) => {
-            console.error("Ошибка при получении данных:", error);
-        });
-}
 getClients();
 /* Находим корневой элемент в DOM (точка входа) */
 const root = document.querySelector("#root");
@@ -439,21 +425,111 @@ addClient.addEventListener("click", () => {
     wrapper.append(modal);
 });
 
-if (clients && clients.length > 0) {
-    clients.forEach((client) => {
-        const tableBodyItem = createDataBody(client);
-        tBody.append(tableBodyItem);
+table.append(tHead, tBody);
+headScreenData.append(table, addClient);
+
+/* Функция модального окна с формой для создания клиента */
+function createModalForm(modalId, title) {
+    const modal = document.createElement("div");
+    modal.className = "modal d-none";
+    modal.id = modalId;
+
+    const modalContent = document.createElement("div");
+    modalContent.className = "modalContent";
+
+    const modalClose = document.createElement("div");
+    modalClose.className = "modalClose";
+
+    const modalTitle = document.createElement("h3");
+    modalTitle.className = "modalTitle";
+    modalTitle.textContent = title;
+
+    const modalForm = document.createElement("form");
+    modalForm.className = "modalForm";
+    modalForm.id = modalId;
+
+    const inputSurname = document.createElement("input");
+    inputSurname.className = "modalInput inputSurname";
+    inputSurname.id = "surname";
+    inputSurname.type = "text";
+    inputSurname.name = "surname";
+    inputSurname.placeholder = "Фамилия*";
+
+    const inputName = document.createElement("input");
+    inputName.className = "modalInput inputName";
+    inputName.id = "name";
+    inputName.type = "text";
+    inputName.name = "name";
+    inputName.placeholder = "Имя*";
+
+    const inputLastName = document.createElement("input");
+    inputLastName.className = "modalInput inputLastName";
+    inputLastName.id = "lastName";
+    inputLastName.type = "text";
+    inputLastName.name = "lastName";
+    inputLastName.placeholder = "Отчество*";
+
+    const addContact = document.createElement("div");
+    addContact.className = "addContact";
+
+    const addContactBtn = document.createElement("button");
+    addContactBtn.className = "addContactBtn pointer";
+    addContactBtn.textContent = "Добавить контакт";
+    addContactBtn.type = "button";
+    addContact.append(addContactBtn);
+
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "errorMessage d-none";
+    errorMessage.textContent =
+        "Ошибка: новая модель организационной деятельности предполагает независимые способы реализации поставленных обществом задач!";
+
+    const submitBtn = document.createElement("button");
+    submitBtn.className = "submitBtn pointer";
+    submitBtn.id = modalId;
+    submitBtn.textContent = "Сохранить";
+    submitBtn.type = "submit";
+    submitBtn.onclick = submitFormCreate;
+
+    const cancel = document.createElement("div");
+    cancel.className = "cancelOrRemove pointer";
+    cancel.textContent = "Отменить";
+
+    modalForm.append(
+        inputSurname,
+        inputName,
+        inputLastName,
+        addContact,
+        errorMessage,
+        submitBtn,
+        cancel
+    );
+
+    modalContent.append(modalClose, modalTitle, modalForm);
+    modal.append(modalContent);
+
+    modalClose.addEventListener("click", () => {
+        modal.remove();
     });
 
-    table.append(tHead, tBody);
-    headScreenData.append(table, addClient);
-} else {
-    table.append(tHead);
-    headScreenData.append(table, createSpinner(), addClient);
+    addContactBtn.addEventListener("click", () => {
+        addContact.prepend(createContact());
+    });
+
+    cancel.textContent === "Отменить" &&
+        cancel.addEventListener("click", () => {
+            modal.remove();
+        });
+
+    window.onclick = (e) => {
+        if (e.target == document.getElementById(modalId)) {
+            document.getElementById(modalId).classList.add("d-none");
+        }
+    };
+    return modal;
 }
 
-/* Функция создания модального окна с формой для создания и изменения клиента */
-const createModalForm = (modalId, title, payload) => {
+/* Функция модального окна с формой для  изменения клиента */
+function updateModalForm(modalId, title, payload) {
     const modal = document.createElement("div");
     modal.className = "modal d-none";
     modal.id = modalId;
@@ -470,10 +546,17 @@ const createModalForm = (modalId, title, payload) => {
 
     const clientId = document.createElement("span");
     clientId.className = "clientId";
-    clientId.textContent = payload ? `ID: ${payload.id}` : null;
+    clientId.textContent = `ID: ${payload.id}`;
 
     const modalForm = document.createElement("form");
     modalForm.className = "modalForm";
+    modalForm.id = modalId;
+
+    const inputClientId = document.createElement("input");
+    inputClientId.className = "inputClientId";
+    inputClientId.type = "text";
+    inputClientId.name = "clientId";
+    inputClientId.value = payload.id;
 
     const labelSurname = document.createElement("label");
     labelSurname.className = "modalLabel labelSurname";
@@ -491,7 +574,7 @@ const createModalForm = (modalId, title, payload) => {
     inputSurname.type = "text";
     inputSurname.name = "surname";
     inputSurname.placeholder = "Фамилия*";
-    payload ? (inputSurname.value = payload.surname) : null;
+    inputSurname.value = payload.surname;
 
     const labelName = document.createElement("label");
     labelName.className = "modalLabel labelName";
@@ -505,7 +588,7 @@ const createModalForm = (modalId, title, payload) => {
     inputName.type = "text";
     inputName.name = "name";
     inputName.placeholder = "Имя*";
-    payload ? (inputName.value = payload.name) : null;
+    inputName.value = payload.name;
 
     const labelLastName = document.createElement("label");
     labelLastName.className = "modalLabel labelLastName";
@@ -514,23 +597,22 @@ const createModalForm = (modalId, title, payload) => {
     labelLastName.append(labelStar);
 
     const inputLastName = document.createElement("input");
-    inputLastName.className = "modalInput inputName";
+    inputLastName.className = "modalInput inputLastName";
     inputLastName.id = "lastName";
     inputLastName.type = "text";
     inputLastName.name = "lastName";
     inputLastName.placeholder = "Отчество*";
-    payload ? (inputLastName.value = payload.lastName) : null;
+    inputLastName.value = payload.lastName;
 
     const addContact = document.createElement("div");
     addContact.className =
-        payload && payload.contacts.length > 5
+        payload.contacts.length > 5
             ? "addContact addContactScroll"
             : "addContact";
 
-    payload &&
-        payload.contacts.forEach((c) => {
-            addContact.prepend(createContact(c));
-        });
+    payload.contacts.forEach((c) => {
+        addContact.prepend(createContact(c));
+    });
 
     const addContactBtn = document.createElement("button");
     addContactBtn.className = "addContactBtn pointer";
@@ -545,26 +627,27 @@ const createModalForm = (modalId, title, payload) => {
 
     const submitBtn = document.createElement("button");
     submitBtn.className = "submitBtn pointer";
+    submitBtn.id = modalId;
     submitBtn.textContent = "Сохранить";
     submitBtn.type = "submit";
-    submitBtn.onclick = submitFormCreate;
+    submitBtn.onclick = submitFormUpdate;
 
-    const cancelOrRemove = document.createElement("div");
-    cancelOrRemove.className = "cancelOrRemove pointer";
-    cancelOrRemove.textContent = payload ? "Удалить клиента" : "Отменить";
+    const remove = document.createElement("div");
+    remove.className = "cancelOrRemove pointer";
+    remove.textContent = "Удалить клиента";
 
     modalForm.append(
+        inputClientId,
         inputSurname,
         inputName,
         inputLastName,
         addContact,
         errorMessage,
         submitBtn,
-        cancelOrRemove
+        remove
     );
 
-    payload && modalContent.append(clientId);
-    modalContent.append(modalClose, modalTitle, modalForm);
+    modalContent.append(clientId, modalClose, modalTitle, modalForm);
     modal.append(modalContent);
 
     modalClose.addEventListener("click", () => {
@@ -575,10 +658,9 @@ const createModalForm = (modalId, title, payload) => {
         addContact.prepend(createContact());
     });
 
-    cancelOrRemove.textContent === "Отменить" &&
-        cancelOrRemove.addEventListener("click", () => {
-            modal.remove();
-        });
+    remove.addEventListener("click", () => {
+        modal.remove();
+    });
 
     window.onclick = (e) => {
         if (e.target == document.getElementById(modalId)) {
@@ -586,9 +668,9 @@ const createModalForm = (modalId, title, payload) => {
         }
     };
     return modal;
-};
+}
 
-/* Функция создания ввода контакта */
+/* Функция ввода контакта */
 function createContact(payload) {
     const contactWraper = document.createElement("div");
     contactWraper.className = "contactWraper";
@@ -659,7 +741,6 @@ function createContact(payload) {
 }
 
 /* Итог */
-// const modal = createModalForm("createClient", "Новый клиент");
 wrapper.append(headScreen);
 
 /* Функция для создания спинера загрузки данных */
@@ -695,7 +776,7 @@ toggleButton?.addEventListener("click", () => {
 });
 
 /* Функция вызова модального окна для изменения данных */
-const myTable = document.querySelector(".table");
+const myTable = document.querySelector("#myTable");
 
 const handleEditBtn = (e) => {
     const clickedButton = e.target; // Целевой элемент, на который было нажатие
@@ -703,17 +784,13 @@ const handleEditBtn = (e) => {
     const rowData = Array.from(clickedRow.children).map(
         (cell) => cell.textContent
     ); // Значения ячеек строки
-
-    const client = clients.find((c) => c.id === rowData[0]);
-    return client;
+    return rowData[0];
 };
 
 myTable.addEventListener("click", (e) => {
     if (e.target.classList.contains("btnEdit")) {
-        const client = handleEditBtn(e);
-        const modal = createModalForm("editClient", "Изменить данные", client);
-        modal.classList.remove("d-none");
-        wrapper.append(modal);
+        const clientId = handleEditBtn(e);
+        getClientById(clientId);
     }
 });
 
@@ -731,13 +808,13 @@ const handleDeleteBtn = (e) => {
 myTable.addEventListener("click", (e) => {
     if (e.target.classList.contains("btnRemove")) {
         const clientId = handleDeleteBtn(e);
-        const modal = createDeleteModal(clientId);
+        const modal = deleteModal(clientId);
         modal.classList.remove("d-none");
         wrapper.append(modal);
     }
 });
 
-function createDeleteModal(clientId) {
+function deleteModal(clientId) {
     const modal = document.createElement("div");
     modal.className = "modal";
     modal.id = "deleteModal";
@@ -758,6 +835,7 @@ function createDeleteModal(clientId) {
 
     const modalForm = document.createElement("form");
     modalForm.className = "modalFormDeleted";
+    modalForm.id = "deleteModal";
 
     const inputClientId = document.createElement("input");
     inputClientId.className = "modalInputDeleted";
@@ -768,8 +846,10 @@ function createDeleteModal(clientId) {
 
     const submitBtn = document.createElement("button");
     submitBtn.className = "submitBtn pointer";
+    submitBtn.id = "deleteModalBtn";
     submitBtn.textContent = "Удалить";
     submitBtn.type = "submit";
+    submitBtn.onclick = submitFormDelete;
 
     const cancel = document.createElement("div");
     cancel.className = "cancelOrRemove pointer";
@@ -893,15 +973,34 @@ function formatDate(date) {
     };
 }
 
-// {
-// name: string, surname: string, lastName?: string, contacts?: object[] }
-//         contacts - массив объектов контактов вида { type: string, value: string }
+/* Получаем данные с backend */
+function getClients() {
+    fetch("http://localhost:3000/api/clients")
+        .then((response) => response.json())
+        .then((data) => {
+            let table = document.getElementById("myTable");
+            let tbody = table.getElementsByTagName("tbody")[0];
+
+            // Очищаем содержимое tbody перед добавлением данных
+            tbody.innerHTML = "";
+
+            // Добавляем строки с данными в таблицу
+            data.forEach((item) => {
+                tbody.appendChild(createDataBody(item));
+            });
+        })
+        .catch((error) => {
+            console.error("Ошибка при получении данных:", error);
+            headScreenData.append(table, createSpinner(), addClient);
+        });
+}
 
 /* Сохраняем данные в backend */
 function submitFormCreate(e) {
     e.preventDefault();
     // Поиск формы
-    const form = document.querySelector(".modalForm");
+    const form = document.querySelector("#createClient");
+    console.log(form);
     const inputs = form.querySelectorAll("input");
 
     let formData = {};
@@ -924,6 +1023,8 @@ function submitFormCreate(e) {
         }
     });
     formData["contacts"] = contacts;
+    formData["created_at"] = Date.now();
+    formData["updated_at"] = Date.now();
     createClient(formData);
 }
 
@@ -951,9 +1052,13 @@ function getClientById(id) {
     fetch(`http://localhost:3000/api/clients/${id}`)
         .then((response) => response.json())
         .then((data) => {
-            // Обработка полученных данных
-            console.log(data); // Вывод данных в консоль
-            // Дальнейшая обработка данных
+            const modal = updateModalForm(
+                "editClient",
+                "Изменить данные",
+                data
+            );
+            modal.classList.remove("d-none");
+            wrapper.append(modal);
         })
         .catch((error) => {
             console.error("Ошибка при получении данных:", error);
@@ -961,6 +1066,40 @@ function getClientById(id) {
 }
 
 // Измеяем данные клиента
+function submitFormUpdate(e) {
+    e.preventDefault();
+    // Поиск формы
+    const form = document.querySelector("#editClient");
+    const inputs = form.querySelectorAll("input");
+
+    let formData = {};
+    let contacts = [];
+    let clientId = "";
+    inputs.forEach((input) => {
+        switch (input.name) {
+            case "clientId":
+                clientId = input.value;
+                break;
+            case "lastName":
+                formData[input.name] = input.value;
+                break;
+            case "name":
+                formData[input.name] = input.value;
+                break;
+            case "surname":
+                formData[input.name] = input.value;
+                break;
+
+            default:
+                contacts.push({ type: input.name, value: input.value });
+                break;
+        }
+    });
+    formData["contacts"] = contacts;
+    formData["updated_at"] = Date.now();
+    updateClient(clientId, formData);
+}
+
 function updateClient(id, clientData) {
     fetch(`http://localhost:3000/api/clients/${id}`, {
         method: "PATCH",
@@ -981,6 +1120,12 @@ function updateClient(id, clientData) {
 }
 
 // Удаляем данные клиента
+function submitFormDelete(e) {
+    e.preventDefault();
+    const form = document.querySelector("#deleteModal");
+    const clientId = form.elements["clientId"].value;
+    deleteClient(clientId);
+}
 function deleteClient(id) {
     fetch(`http://localhost:3000/api/clients/${id}`, {
         method: "DELETE",
