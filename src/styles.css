@@ -405,8 +405,8 @@ li {
 
 /* Стили спинера загрузки данных */
 .spinner {
-    position: absolute;
-    top: 0;
+    width: 1024px;
+    top: 214px;
     left: 0;
     z-index: 1;
     display: flex;

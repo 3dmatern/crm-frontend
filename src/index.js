@@ -50,12 +50,12 @@ const headers = [
     },
 ];
 
-const clients = [
+let clients = [
     {
         id: "123455",
         surname: "Скворцов",
         name: "Денис",
-        patronymic: "Юрьевич",
+        lastName: "Юрьевич",
         created_at: 1689761902637,
         updated_at: 1689770902637,
         contacts: [
@@ -85,7 +85,7 @@ const clients = [
         id: "123456",
         surname: "Куприянов",
         name: "Арсений",
-        patronymic: "Валерьевич",
+        lastName: "Валерьевич",
         created_at: 1689769202637,
         updated_at: 1689770902637,
         contacts: [
@@ -97,7 +97,7 @@ const clients = [
         id: "123457",
         surname: "Константинопольская",
         name: "Людмила",
-        patronymic: "Александровна",
+        lastName: "Александровна",
         created_at: 1689769902637,
         updated_at: 1689780902637,
         contacts: [
@@ -115,7 +115,7 @@ const clients = [
         id: "123458",
         surname: "Дмитриевский",
         name: "Олег",
-        patronymic: "Алексеевич",
+        lastName: "Алексеевич",
         created_at: 1689769902637,
         updated_at: 1689970902637,
         contacts: [
@@ -126,7 +126,7 @@ const clients = [
         id: "123459",
         surname: "Александрова",
         name: "Татьяна",
-        patronymic: "Павловна",
+        lastName: "Павловна",
         created_at: 1689769902637,
         updated_at: 1689790902637,
         contacts: [
@@ -137,6 +137,21 @@ const clients = [
     },
 ];
 
+/* Получаем данные с backend */
+function getClients() {
+    fetch("http://localhost:3000/api/clients")
+        .then((response) => response.json())
+        .then((data) => {
+            // Обработка полученных данных
+            console.log(data); // Вывод данных в консоль
+            // Дальнейшая обработка данных
+            clients = data;
+        })
+        .catch((error) => {
+            console.error("Ошибка при получении данных:", error);
+        });
+}
+getClients();
 /* Находим корневой элемент в DOM (точка входа) */
 const root = document.querySelector("#root");
 
@@ -246,7 +261,7 @@ const createDataBody = ({
     id,
     surname,
     name,
-    patronymic,
+    lastName,
     created_at,
     updated_at,
     contacts,
@@ -269,7 +284,7 @@ const createDataBody = ({
     tdFullName.className = "tdFullName";
     const tdFullNameBody = document.createElement("div");
     tdFullNameBody.className = "tdFullNameBody";
-    tdFullNameBody.textContent = `${surname} ${name} ${patronymic}`;
+    tdFullNameBody.textContent = `${surname} ${name} ${lastName}`;
     tdFullName.append(tdFullNameBody);
 
     // Дата и время создания клиента
@@ -414,13 +429,6 @@ const createDataBody = ({
     return tr;
 };
 
-clients.forEach((client) => {
-    const tableBodyItem = createDataBody(client);
-    tBody.append(tableBodyItem);
-});
-
-table.append(tHead, tBody);
-
 /* Создаем кнопку добавления клиента */
 const addClient = document.createElement("button");
 addClient.className = "addClient pointer";
@@ -431,7 +439,18 @@ addClient.addEventListener("click", () => {
     wrapper.append(modal);
 });
 
-headScreenData.append(table, addClient);
+if (clients && clients.length > 0) {
+    clients.forEach((client) => {
+        const tableBodyItem = createDataBody(client);
+        tBody.append(tableBodyItem);
+    });
+
+    table.append(tHead, tBody);
+    headScreenData.append(table, addClient);
+} else {
+    table.append(tHead);
+    headScreenData.append(table, createSpinner(), addClient);
+}
 
 /* Функция создания модального окна с формой для создания и изменения клиента */
 const createModalForm = (modalId, title, payload) => {
@@ -488,19 +507,19 @@ const createModalForm = (modalId, title, payload) => {
     inputName.placeholder = "Имя*";
     payload ? (inputName.value = payload.name) : null;
 
-    const labelPatronymic = document.createElement("label");
-    labelPatronymic.className = "modalLabel labelPatronymic";
-    labelPatronymic.textContent = "Отчество";
-    labelPatronymic.setAttribute("for", "patronymic");
-    labelPatronymic.append(labelStar);
+    const labelLastName = document.createElement("label");
+    labelLastName.className = "modalLabel labelLastName";
+    labelLastName.textContent = "Отчество";
+    labelLastName.setAttribute("for", "lastName");
+    labelLastName.append(labelStar);
 
-    const inputPatronymic = document.createElement("input");
-    inputPatronymic.className = "modalInput inputName";
-    inputPatronymic.id = "patronymic";
-    inputPatronymic.type = "text";
-    inputPatronymic.name = "patronymic";
-    inputPatronymic.placeholder = "Отчество*";
-    payload ? (inputPatronymic.value = payload.patronymic) : null;
+    const inputLastName = document.createElement("input");
+    inputLastName.className = "modalInput inputName";
+    inputLastName.id = "lastName";
+    inputLastName.type = "text";
+    inputLastName.name = "lastName";
+    inputLastName.placeholder = "Отчество*";
+    payload ? (inputLastName.value = payload.lastName) : null;
 
     const addContact = document.createElement("div");
     addContact.className =
@@ -528,6 +547,7 @@ const createModalForm = (modalId, title, payload) => {
     submitBtn.className = "submitBtn pointer";
     submitBtn.textContent = "Сохранить";
     submitBtn.type = "submit";
+    submitBtn.onclick = submitFormCreate;
 
     const cancelOrRemove = document.createElement("div");
     cancelOrRemove.className = "cancelOrRemove pointer";
@@ -536,7 +556,7 @@ const createModalForm = (modalId, title, payload) => {
     modalForm.append(
         inputSurname,
         inputName,
-        inputPatronymic,
+        inputLastName,
         addContact,
         errorMessage,
         submitBtn,
@@ -588,7 +608,7 @@ function createContact(payload) {
 
     const select = document.createElement("div");
     select.className = "select";
-    select.textContent = payload.name || "Телефон";
+    select.textContent = payload?.name || "Телефон";
 
     const selectLists = document.createElement("ul");
     selectLists.className = "selectLists d-none";
@@ -598,7 +618,7 @@ function createContact(payload) {
     inputContact.name = "tel";
     inputContact.type = "text";
     inputContact.placeholder = "Введите данные контакта";
-    inputContact.value = payload.value || null;
+    inputContact.value = payload?.value || null;
 
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "deleteBtn";
@@ -669,7 +689,7 @@ const toggleElements = () => {
 };
 
 const toggleButton = document.querySelector(".toggleBtnContact");
-toggleButton.addEventListener("click", () => {
+toggleButton?.addEventListener("click", () => {
     toggleElements();
     toggleButton.classList.add("d-none");
 });
@@ -871,6 +891,110 @@ function formatDate(date) {
         dayMonthYear: `${day}.${month}.${year}`,
         time: `${hours}:${minutes}`,
     };
+}
+
+// {
+// name: string, surname: string, lastName?: string, contacts?: object[] }
+//         contacts - массив объектов контактов вида { type: string, value: string }
+
+/* Сохраняем данные в backend */
+function submitFormCreate(e) {
+    e.preventDefault();
+    // Поиск формы
+    const form = document.querySelector(".modalForm");
+    const inputs = form.querySelectorAll("input");
+
+    let formData = {};
+    let contacts = [];
+    inputs.forEach((input) => {
+        switch (input.name) {
+            case "lastName":
+                formData[input.name] = input.value;
+                break;
+            case "name":
+                formData[input.name] = input.value;
+                break;
+            case "surname":
+                formData[input.name] = input.value;
+                break;
+
+            default:
+                contacts.push({ type: input.name, value: input.value });
+                break;
+        }
+    });
+    formData["contacts"] = contacts;
+    createClient(formData);
+}
+
+function createClient(clientData) {
+    fetch("http://localhost:3000/api/clients", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(clientData),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            // Обработка полученного ответа
+            console.log(data); // Вывод данных в консоль
+            // Дальнейшая обработка ответа
+        })
+        .catch((error) => {
+            console.error("Ошибка при отправке данных:", error);
+        });
+}
+
+/* Получаем client по id с backend */
+function getClientById(id) {
+    fetch(`http://localhost:3000/api/clients/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+            // Обработка полученных данных
+            console.log(data); // Вывод данных в консоль
+            // Дальнейшая обработка данных
+        })
+        .catch((error) => {
+            console.error("Ошибка при получении данных:", error);
+        });
+}
+
+// Измеяем данные клиента
+function updateClient(id, clientData) {
+    fetch(`http://localhost:3000/api/clients/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(clientData),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            // Обработка полученного ответа
+            console.log(data); // Вывод данных в консоль
+            // Дальнейшая обработка ответа
+        })
+        .catch((error) => {
+            console.error("Ошибка при отправке данных:", error);
+        });
+}
+
+// Удаляем данные клиента
+function deleteClient(id) {
+    fetch(`http://localhost:3000/api/clients/${id}`, {
+        method: "DELETE",
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Ошибка при удалении клиента");
+            }
+            // Обработка успешного удаления
+            console.log("Клиент успешно удален");
+        })
+        .catch((error) => {
+            console.error("Ошибка при удалении клиента:", error);
+        });
 }
 
 /* Функция форматирования даты, для длбавления нулей цифрам */
