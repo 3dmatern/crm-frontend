@@ -103,14 +103,16 @@ const tHead = document.createElement("thead");
 const trHead = document.createElement("tr");
 
 // Создаем фунцию для генерации заголовков таблицы
-const createDataHeader = ({ id, thId, title, className, sort, clicked }) => {
+const createDataHeader = ({ id, title, className, sort, clicked }) => {
     const th = document.createElement("th");
     th.className = "trHeadTh";
     th.scope = "col";
 
     const header = document.createElement("div");
     header.className = clicked
-        ? `trHeadThData ${className} pointer`
+        ? id === "1"
+            ? `trHeadThData ${className} pointer trHeadThDataActive`
+            : `trHeadThData ${className} pointer`
         : `trHeadThData ${className}`;
     header.textContent = title;
     header.dataset.headerId = id;
@@ -373,26 +375,59 @@ function createModalForm(modalId, title) {
     modalForm.className = "modalForm";
     modalForm.id = modalId;
 
+    const groupSurname = document.createElement("div");
+    groupSurname.className = "inputGroup";
+    groupSurname.innerHTML = '<span class="star starSurname">*</span>';
+
     const inputSurname = document.createElement("input");
     inputSurname.className = "modalInput inputSurname";
+    inputSurname.classList.add("modalInputStar");
     inputSurname.id = "surname";
     inputSurname.type = "text";
     inputSurname.name = "surname";
-    inputSurname.placeholder = "Фамилия*";
+    inputSurname.placeholder = "Фамилия";
+    inputSurname.addEventListener("input", () => {
+        if (inputSurname.value.trim() !== "") {
+            document.querySelector(".starSurname").classList.add("d-none");
+            document
+                .querySelector(".inputSurname")
+                .classList.remove("notValid");
+        } else {
+            document.querySelector(".starSurname").classList.remove("d-none");
+        }
+    });
+    groupSurname.append(inputSurname);
+
+    const groupName = document.createElement("div");
+    groupName.className = "inputGroup";
+    groupName.innerHTML = '<span class="star starName">*</span>';
 
     const inputName = document.createElement("input");
     inputName.className = "modalInput inputName";
     inputName.id = "name";
     inputName.type = "text";
     inputName.name = "name";
-    inputName.placeholder = "Имя*";
+    inputName.placeholder = "Имя";
+    inputName.addEventListener("input", () => {
+        if (inputName.value.trim() !== "") {
+            document.querySelector(".starName").classList.add("d-none");
+            document.querySelector(".inputName").classList.remove("notValid");
+        } else {
+            document.querySelector(".starName").classList.remove("d-none");
+        }
+    });
+    groupName.append(inputName);
+
+    const groupLastName = document.createElement("div");
+    groupLastName.className = "inputGroup";
 
     const inputLastName = document.createElement("input");
     inputLastName.className = "modalInput inputLastName";
     inputLastName.id = "lastName";
     inputLastName.type = "text";
     inputLastName.name = "lastName";
-    inputLastName.placeholder = "Отчество*";
+    inputLastName.placeholder = "Отчество";
+    groupLastName.append(inputLastName);
 
     const addContact = document.createElement("div");
     addContact.className = "addContact";
@@ -420,9 +455,9 @@ function createModalForm(modalId, title) {
     cancel.textContent = "Отменить";
 
     modalForm.append(
-        inputSurname,
-        inputName,
-        inputLastName,
+        groupSurname,
+        groupName,
+        groupLastName,
         addContact,
         errorMessage,
         submitBtn,
@@ -486,23 +521,27 @@ function updateModalForm(modalId, title, payload) {
     const inputGroupFirst = document.createElement("div");
     inputGroupFirst.className = "inputGroup";
 
+    const labelStar = '<div class="labelStar">*</div>';
     const labelSurname = document.createElement("label");
     labelSurname.className = "modalLabel labelSurname";
     labelSurname.textContent = "Фамилия";
     labelSurname.setAttribute("for", "surname");
-
-    const labelStar = document.createElement("div");
-    labelStar.className = "labelStar";
-    labelStar.textContent = "*";
-    labelSurname.append(labelStar);
+    labelSurname.innerHTML += labelStar;
 
     const inputSurname = document.createElement("input");
     inputSurname.className = "modalInput inputSurname";
     inputSurname.id = "surname";
     inputSurname.type = "text";
     inputSurname.name = "surname";
-    inputSurname.placeholder = "Фамилия*";
     inputSurname.value = payload.surname;
+    inputSurname.addEventListener("input", () => {
+        if (inputSurname.value.trim() !== "") {
+            document
+                .querySelector(".inputSurname")
+                .classList.remove("notValid");
+        }
+    });
+
     inputGroupFirst.append(labelSurname, inputSurname);
 
     const inputGroupSecond = document.createElement("div");
@@ -512,16 +551,22 @@ function updateModalForm(modalId, title, payload) {
     labelName.className = "modalLabel labelName";
     labelName.textContent = "Имя";
     labelName.setAttribute("for", "name");
-    labelName.append(labelStar);
+    labelName.innerHTML += labelStar;
 
     const inputName = document.createElement("input");
     inputName.className = "modalInput inputName";
     inputName.id = "name";
     inputName.type = "text";
     inputName.name = "name";
-    inputName.placeholder = "Имя*";
     inputName.value = payload.name;
+
     inputGroupSecond.append(labelName, inputName);
+
+    inputName.addEventListener("input", () => {
+        if (inputSurname.value.trim() !== "") {
+            document.querySelector(".inputName").classList.remove("notValid");
+        }
+    });
 
     const inputGroupThird = document.createElement("div");
     inputGroupThird.className = "inputGroup";
@@ -530,14 +575,12 @@ function updateModalForm(modalId, title, payload) {
     labelLastName.className = "modalLabel labelLastName";
     labelLastName.textContent = "Отчество";
     labelLastName.setAttribute("for", "lastName");
-    labelLastName.append(labelStar);
 
     const inputLastName = document.createElement("input");
     inputLastName.className = "modalInput inputLastName";
     inputLastName.id = "lastName";
     inputLastName.type = "text";
     inputLastName.name = "lastName";
-    inputLastName.placeholder = "Отчество*";
     inputLastName.value = payload.lastName;
     inputGroupThird.append(labelLastName, inputLastName);
 
@@ -913,6 +956,28 @@ function formatDate(date) {
     };
 }
 
+/* Функция форматирования даты, для длбавления нулей цифрам */
+function isOneDigit(date) {
+    if (date >= 0 && date < 10) {
+        return `0${date}`;
+    }
+    return date;
+}
+
+// Функция генерации ID
+function generateRandomId() {
+    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    const idLength = 8;
+    let randomId = "";
+
+    for (let i = 0; i < idLength; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomId += characters[randomIndex];
+    }
+
+    return randomId;
+}
+
 /* Получаем данные с backend */
 function getClients() {
     fetch("http://localhost:3000/api/clients")
@@ -1054,9 +1119,31 @@ function updateClient(id, clientData) {
             // Обработка полученного ответа
             console.log(data); // Вывод данных в консоль
             // Дальнейшая обработка ответа
+            const surname = document.querySelector("#surname");
+            const name = document.querySelector("#name");
+            if (data.errors) {
+                console.log(data.errors);
+                data.errors.map((err) => {
+                    switch (err.field) {
+                        case "surname":
+                            surname.classList.add("notValid");
+                            surname.placeholder = err.message;
+                            break;
+                        case "name":
+                            name.classList.add("notValid");
+                            name.placeholder = err.message;
+                            break;
+
+                        default:
+                            break;
+                    }
+                });
+            }
         })
         .catch((error) => {
             console.error("Ошибка при отправке данных:", error);
+            const errors = document.querySelector(".errorMessage");
+            errors.classList.remove("d-none");
         });
 }
 
@@ -1084,24 +1171,18 @@ function deleteClient(id) {
         });
 }
 
-/* Функция форматирования даты, для длбавления нулей цифрам */
-function isOneDigit(date) {
-    if (date >= 0 && date < 10) {
-        return `0${date}`;
-    }
-    return date;
-}
+// Получаем все заголовки таблицы
+const headersTable = document.querySelectorAll(".trHeadThData");
 
-// Функция генерации ID
-function generateRandomId() {
-    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-    const idLength = 8;
-    let randomId = "";
+// Добавьте обработчик события для каждого заголовка
+headersTable.forEach((header) => {
+    header.addEventListener("click", () => {
+        // Удалите класс "active" у всех заголовков таблицы
+        headersTable.forEach((h) => {
+            h.classList.remove("trHeadThDataActive");
+        });
 
-    for (let i = 0; i < idLength; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        randomId += characters[randomIndex];
-    }
-
-    return randomId;
-}
+        // Добавьте класс "active" только выбранному заголовку
+        header.classList.add("trHeadThDataActive");
+    });
+});
