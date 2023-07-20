@@ -432,7 +432,7 @@ headScreenData.append(table, addClient);
 function createModalForm(modalId, title) {
     const modal = document.createElement("div");
     modal.className = "modal d-none";
-    modal.id = modalId;
+    modal.id = "modalForm";
 
     const modalContent = document.createElement("div");
     modalContent.className = "modalContent";
@@ -520,9 +520,9 @@ function createModalForm(modalId, title) {
             modal.remove();
         });
 
-    window.onclick = (e) => {
-        if (e.target == document.getElementById(modalId)) {
-            document.getElementById(modalId).classList.add("d-none");
+    document.onclick = (e) => {
+        if (e.target === document.getElementById("modalForm")) {
+            document.getElementById("modalForm").remove();
         }
     };
     return modal;
@@ -532,7 +532,7 @@ function createModalForm(modalId, title) {
 function updateModalForm(modalId, title, payload) {
     const modal = document.createElement("div");
     modal.className = "modal d-none";
-    modal.id = modalId;
+    modal.id = "modalForm";
 
     const modalContent = document.createElement("div");
     modalContent.className = "modalContent";
@@ -550,7 +550,7 @@ function updateModalForm(modalId, title, payload) {
 
     const modalForm = document.createElement("form");
     modalForm.className = "modalForm";
-    modalForm.id = modalId;
+    modalForm.id = "updateClient";
 
     const inputClientId = document.createElement("input");
     inputClientId.className = "inputClientId";
@@ -663,8 +663,8 @@ function updateModalForm(modalId, title, payload) {
     });
 
     window.onclick = (e) => {
-        if (e.target == document.getElementById(modalId)) {
-            document.getElementById(modalId).classList.add("d-none");
+        if (e.target == document.getElementById("modalForm")) {
+            document.getElementById("modalForm").remove();
         }
     };
     return modal;
@@ -835,7 +835,7 @@ function deleteModal(clientId) {
 
     const modalForm = document.createElement("form");
     modalForm.className = "modalFormDeleted";
-    modalForm.id = "deleteModal";
+    modalForm.id = "deleteClient";
 
     const inputClientId = document.createElement("input");
     inputClientId.className = "modalInputDeleted";
@@ -1023,8 +1023,8 @@ function submitFormCreate(e) {
         }
     });
     formData["contacts"] = contacts;
-    formData["created_at"] = Date.now();
-    formData["updated_at"] = Date.now();
+    formData["createdAt"] = Date.now();
+    formData["updatedAt"] = Date.now();
     createClient(formData);
 }
 
@@ -1069,7 +1069,7 @@ function getClientById(id) {
 function submitFormUpdate(e) {
     e.preventDefault();
     // Поиск формы
-    const form = document.querySelector("#editClient");
+    const form = document.querySelector("#updateClient");
     const inputs = form.querySelectorAll("input");
 
     let formData = {};
@@ -1096,7 +1096,7 @@ function submitFormUpdate(e) {
         }
     });
     formData["contacts"] = contacts;
-    formData["updated_at"] = Date.now();
+    formData["updatedAt"] = Date.now();
     updateClient(clientId, formData);
 }
 
@@ -1122,7 +1122,8 @@ function updateClient(id, clientData) {
 // Удаляем данные клиента
 function submitFormDelete(e) {
     e.preventDefault();
-    const form = document.querySelector("#deleteModal");
+    const form = document.querySelector("#deleteClient");
+    console.log(form);
     const clientId = form.elements["clientId"].value;
     deleteClient(clientId);
 }
