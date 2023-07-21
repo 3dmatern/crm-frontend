@@ -153,65 +153,57 @@ li {
 .headScreenData {
     width: 100%;
     height: auto;
-    table-layout: fixed;
+    table-layout: auto;
     border: none;
     margin: 10px 0 40px 0;
 }
 
 .table {
-    border-collapse: collapse;
+    border-spacing: 0;
 }
 
-.trHeadTh {
+.table thead tr th {
     padding-bottom: 8px;
     vertical-align: bottom;
-}
 
-.trHeadThData {
     text-align: start;
 
     color: #b0b0b0;
     font-size: 12px;
     font-weight: 400;
 
-    padding-left: 10px;
+    padding: 10px;
 }
 
 .trHeadThDataActive {
     color: #9873ff;
 }
 
-.trHeadThData-first {
+.trHeadThData-first,
+.table thead tr th:nth-child(1) {
     text-align: center;
-    margin-right: 8px;
 }
 
-.trHeadThData-second {
-    margin-right: 12px;
+.trHeadThData-second,
+.table thead tr th:nth-child(2) {
+    width: 230px;
 }
 
-.trHeadThData-third {
-    width: 128px;
-    margin-right: 29px;
-}
-.trHeadThData-fourth {
-    width: 128px;
-    margin-right: 28px;
+.trHeadThData-third,
+.trHeadThData-fourth,
+.table thead tr th:nth-child(3),
+.table thead tr th:nth-child(4) {
+    width: 118px;
 }
 
-.trHeadThData-fiveth {
+.trHeadThData-fiveth,
+.table thead tr th:nth-child(5) {
     width: 108px;
-    margin-right: 40px;
 }
 
-.trHeadThData-sixth {
-    width: 85px;
-    margin-right: 20px;
-}
-
-.trHeadThData-seventh {
-    width: 74px;
-    margin-right: 20px;
+.trHeadThData-sixth,
+.table thead tr th:nth-child(6) {
+    width: auto;
 }
 
 .trHeadThDataArrowDown,
@@ -227,56 +219,41 @@ li {
     background: url(../assets/arrowUp.svg) no-repeat left;
 }
 
-.tBody {
+.tBody tbody {
     position: relative;
     z-index: 0;
     border: none;
-    background: #fff;
-    width: 100%;
 }
 
-.trBody {
-    width: 100%;
+.tBody tr {
     height: 60px;
-    padding: 10px;
-
+    background: #fff;
     border-bottom: 1px solid #c8c5d187;
 }
 
-.thId {
-    display: inline-block;
-    padding: 10px;
-    align-items: flex-start;
-    gap: 10px;
+.tBody tr th {
     color: #b0b0b0;
     font-size: 12px;
     font-weight: 400;
+    padding: 10px;
 }
 
-.thIdBody {
+.tBody tr td {
     padding: 10px;
 }
 
 .tdFullName {
-    width: 241px;
     padding: 0;
 }
 
-.tdFullNameBody {
-    padding: 10px;
-}
-
-.tdDateBody {
-    padding: 10px;
+.tdDateAtBody {
+    display: inline;
 }
 
 .tdDateBodyTime {
+    display: inline;
     color: #b0b0b0;
     padding-left: 10px;
-}
-
-.tdContacts {
-    padding: 0;
 }
 
 .tdContactsBody {
@@ -285,6 +262,7 @@ li {
     flex-wrap: wrap;
     row-gap: 7px;
     column-gap: 7px;
+    margin: 0;
 }
 
 .tdContactsBodyEmailIcon,
@@ -295,7 +273,6 @@ li {
     position: relative;
     z-index: 0;
 
-    display: inline-block;
     width: 16px;
     height: 16px;
     border-radius: 50%;
@@ -373,8 +350,44 @@ li {
 
 .btnRemove,
 .btnEdit {
-    background: url(../assets/pen.svg) no-repeat left;
+    position: relative;
     padding-left: 17px;
+}
+
+.btnEditIcon {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 3px;
+    left: 0;
+
+    background: url(../assets/pen.svg) no-repeat left;
+    pointer-events: none;
+}
+
+/* Стили анимации спинера кнопки "Изменить" */
+.btnEditPending {
+    color: #9873ff;
+}
+
+.btnEditPendingIcon {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 3px;
+    left: 0;
+
+    /* border: 2px solid #f3f3f3;
+    border-top: 2px solid #9873ff; */
+    border-radius: 50%;
+    background: url(../assets/pending.svg) no-repeat left;
+    animation: spinner-rotate 1s linear infinite;
+}
+
+@keyframes btnEditPending-rotate {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .btnRemove {
@@ -610,14 +623,18 @@ li {
     background: #c8c5d149;
 }
 
-.addContactScroll {
+.addContactItems {
+    width: 100%;
+}
+
+.addContactItemsScroll {
     overflow-y: scroll;
     max-height: 240px;
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
 }
 
-.addContactScroll::-webkit-scrollbar {
+.addContactItemsScroll::-webkit-scrollbar {
     width: 0 !important;
 }
 
@@ -734,7 +751,7 @@ li {
 .selectLists {
     position: absolute;
     top: 35px;
-    left: -1px;
+    left: 0;
     z-index: 2;
 
     border: 1px solid #c8c5d1;
@@ -782,4 +799,120 @@ li {
     background-image: url(../assets/deleteBtn.svg);
     background-position: center;
     background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        width: 768px;
+    }
+
+    .trHeadThData-second,
+    .table thead tr th:nth-child(2) {
+        width: 170px;
+    }
+
+    .trHeadThData-third,
+    .trHeadThData-fourth,
+    .table thead tr th:nth-child(3),
+    .table thead tr th:nth-child(4) {
+        width: 80px;
+    }
+
+    .tdFullName {
+        width: 200px;
+        padding: 0;
+    }
+
+    .tdDateAtBody {
+        display: block;
+    }
+
+    .tdDateBodyTime {
+        padding-left: 0;
+    }
+
+    .tdContactsBody {
+        width: 100px;
+        row-gap: 5px;
+        column-gap: 5px;
+    }
+
+    .tdCActionsBody {
+        display: block;
+        column-gap: 0;
+    }
+}
+
+@media (max-width: 320px) {
+    .wrapper {
+        width: 320px;
+    }
+
+    .navUserIcon {
+        position: relative;
+        display: block;
+        width: 24px;
+        height: 24px;
+        margin: 0 auto;
+        border-radius: 50%;
+        z-index: 0;
+
+        background-image: url(../assets/userIconMobile.svg);
+    }
+
+    .navSearchForm {
+        display: none;
+    }
+
+    .navUserIconContent {
+        font-size: 8.64px;
+    }
+
+    .headScreen {
+        overflow-x: scroll;
+        -ms-overflow-style: none;
+        overflow: -moz-scrollbars-none;
+    }
+
+    .headScreen::-webkit-scrollbar {
+        width: 0 !important;
+    }
+
+    .modalContentDelete,
+    .modalContent {
+        width: 300px;
+        height: auto;
+    }
+
+    .modalInput {
+        width: 270px;
+    }
+
+    .addContactScroll {
+        overflow-y: scroll;
+        max-height: 100px;
+        -ms-overflow-style: none;
+        overflow: -moz-scrollbars-none;
+    }
+
+    .contactWraper {
+        width: 270px;
+    }
+
+    .selectWraper {
+        width: 110px;
+    }
+
+    .selectArrowUp,
+    .selectArrowDown {
+        left: 90px;
+    }
+
+    .selectListsItem {
+        width: 108px;
+    }
+
+    .inputContact {
+        width: 130px;
+    }
 }

@@ -42,6 +42,9 @@ const headers = [
         clicked: false,
     },
 ];
+let countCreateContact = 0;
+let countUpdateModal = 0;
+const limit = 10;
 
 getClients();
 /* Находим корневой элемент в DOM (точка входа) */
@@ -97,7 +100,7 @@ headScreen.append(title, headScreenData);
 // Создаем таблицу
 const table = document.createElement("table");
 table.className = "table";
-table.id = "myTable";
+table.id = "clientTabel";
 
 const tHead = document.createElement("thead");
 const trHead = document.createElement("tr");
@@ -105,17 +108,16 @@ const trHead = document.createElement("tr");
 // Создаем фунцию для генерации заголовков таблицы
 const createDataHeader = ({ id, title, className, sort, clicked }) => {
     const th = document.createElement("th");
-    th.className = "trHeadTh";
     th.scope = "col";
 
     const header = document.createElement("div");
+    header.id = "trHeaderTable";
     header.className = clicked
         ? id === "1"
-            ? `trHeadThData ${className} pointer trHeadThDataActive`
-            : `trHeadThData ${className} pointer`
-        : `trHeadThData ${className}`;
+            ? ` ${className} pointer trHeadThDataActive`
+            : ` ${className} pointer`
+        : ` ${className}`;
     header.textContent = title;
-    header.dataset.headerId = id;
     th.append(header);
 
     const span = document.createElement("span");
@@ -168,6 +170,7 @@ const createDataBody = ({
     const thId = document.createElement("th");
     thId.className = "thId";
     thId.scope = "row";
+
     const thIdBody = document.createElement("div");
     thIdBody.className = "thIdBody";
     thIdBody.textContent = id;
@@ -176,33 +179,34 @@ const createDataBody = ({
     // ФИО
     const tdFullName = document.createElement("td");
     tdFullName.className = "tdFullName";
+
     const tdFullNameBody = document.createElement("div");
-    tdFullNameBody.className = "tdFullNameBody";
     tdFullNameBody.textContent = `${surname} ${name} ${lastName}`;
     tdFullName.append(tdFullNameBody);
 
     // Дата и время создания клиента
     const tdCreatedAt = document.createElement("td");
+
     const tdCreatedAtBody = document.createElement("div");
+    tdCreatedAtBody.className = "tdDateAtBody";
     tdCreatedAtBody.textContent = formatDate(createdAt).dayMonthYear;
     // Время
-    const tdCreatedAtBodyTime = document.createElement("span");
+    const tdCreatedAtBodyTime = document.createElement("div");
     tdCreatedAtBodyTime.className = "tdDateBodyTime";
     tdCreatedAtBodyTime.textContent = formatDate(createdAt).time;
-    tdCreatedAtBody.append(tdCreatedAtBodyTime);
-    tdCreatedAt.append(tdCreatedAtBody);
+    tdCreatedAt.append(tdCreatedAtBody, tdCreatedAtBodyTime);
 
     // Дата и время последнего изменения клиента
     const tdUpdatedAt = document.createElement("td");
+
     const tdUpdatedAtBody = document.createElement("div");
-    tdUpdatedAtBody.className = "tdDateBody";
+    tdUpdatedAtBody.className = "tdDateAtBody";
     tdUpdatedAtBody.textContent = formatDate(updatedAt).dayMonthYear;
     // Время
-    const tdUpdatedAtBodyTime = document.createElement("span");
+    const tdUpdatedAtBodyTime = document.createElement("div");
     tdUpdatedAtBodyTime.className = "tdDateBodyTime";
     tdUpdatedAtBodyTime.textContent = formatDate(updatedAt).time;
-    tdUpdatedAtBody.append(tdUpdatedAtBodyTime);
-    tdUpdatedAt.append(tdUpdatedAtBody);
+    tdUpdatedAt.append(tdUpdatedAtBody, tdUpdatedAtBodyTime);
 
     // Контакты
     const tdContacts = document.createElement("td");
@@ -212,7 +216,6 @@ const createDataBody = ({
     tdContactsBody.className = "tdContactsBody";
 
     // Скрываем часть контактов
-
     contacts.forEach((contact, index) => {
         const item = document.createElement("a");
         switch (contact.type) {
@@ -293,6 +296,7 @@ const createDataBody = ({
             contactInfoWrapper.classList.add("d-none");
         });
     });
+
     // Добавляем кнопку для показа скрытых контактов
     const toggleBtnContact = document.createElement("div");
     toggleBtnContact.className = "pointer toggleBtnContact";
@@ -306,28 +310,37 @@ const createDataBody = ({
     contacts.length > 4 && tdContactsBody.append(toggleBtnContact);
     tdContacts.append(tdContactsBody);
 
-    toggleBtnContact.addEventListener("click", () => {});
+    toggleBtnContact.addEventListener("click", () => {
+        toggleElements();
+        toggleBtnContact.remove();
+    });
 
     // Действия:
     // Кнопка "Изменить"
     const tdActionEdit = document.createElement("td");
+    tdActionEdit.colSpan = 2;
     const tdCActionEditBody = document.createElement("div");
     tdCActionEditBody.className = "tdCActionsBody";
 
     const btnEdit = document.createElement("button");
     btnEdit.className = "btnEdit pointer";
     btnEdit.textContent = "Изменить";
-    tdActionEdit.append(btnEdit);
 
-    // Кнопка "Удалить"
-    const tdActionRemove = document.createElement("td");
+    const btnEditIcon = document.createElement("div");
+    btnEditIcon.className = "btnEditIcon";
+    btnEdit.append(btnEditIcon);
+
+    tdCActionEditBody.append(btnEdit);
+
+    // Кнопка "Удалить";
     const tdCActionRemoveBody = document.createElement("div");
     tdCActionRemoveBody.className = "tdCActionsBody";
 
     const btnRemove = document.createElement("button");
     btnRemove.className = "btnRemove pointer";
     btnRemove.textContent = "Удалить";
-    tdActionRemove.append(btnRemove);
+    tdCActionEditBody.append(btnRemove);
+    tdActionEdit.append(tdCActionEditBody);
 
     tr.append(
         thId,
@@ -335,8 +348,7 @@ const createDataBody = ({
         tdCreatedAt,
         tdUpdatedAt,
         tdContacts,
-        tdActionEdit,
-        tdActionRemove
+        tdActionEdit
     );
 
     return tr;
@@ -434,11 +446,14 @@ function createModalForm(modalId, title) {
     const addContact = document.createElement("div");
     addContact.className = "addContact";
 
+    const addContactItems = document.createElement("div");
+    addContactItems.className = "addContactItems";
+
     const addContactBtn = document.createElement("button");
     addContactBtn.className = "addContactBtn pointer";
     addContactBtn.textContent = "Добавить контакт";
     addContactBtn.type = "button";
-    addContact.append(addContactBtn);
+    addContact.append(addContactItems, addContactBtn);
 
     const errorMessage = document.createElement("div");
     errorMessage.className = "errorMessage d-none";
@@ -447,7 +462,7 @@ function createModalForm(modalId, title) {
 
     const submitBtn = document.createElement("button");
     submitBtn.className = "submitBtn pointer";
-    submitBtn.id = modalId;
+    submitBtn.id = "clientCreate";
     submitBtn.textContent = "Сохранить";
     submitBtn.type = "submit";
     submitBtn.onclick = submitFormCreate;
@@ -470,20 +485,31 @@ function createModalForm(modalId, title) {
     modal.append(modalContent);
 
     modalClose.addEventListener("click", () => {
+        countCreateContact = 0;
         modal.remove();
     });
 
     addContactBtn.addEventListener("click", () => {
-        addContact.prepend(createContact());
+        ++countCreateContact;
+        if (countCreateContact <= limit) {
+            addContactItems.append(createContact());
+        }
+        if (countCreateContact >= 4) {
+            addContactItems.classList.add("addContactItemsScroll");
+        }
+        if (countCreateContact === limit) {
+            addContactBtn.classList.add("d-none");
+        }
     });
 
-    cancel.textContent === "Отменить" &&
-        cancel.addEventListener("click", () => {
-            modal.remove();
-        });
+    cancel.addEventListener("click", () => {
+        countCreateContact = 0;
+        modal.remove();
+    });
 
     document.onclick = (e) => {
         if (e.target === document.getElementById("createModal")) {
+            countCreateContact = 0;
             document.getElementById("createModal").remove();
         }
     };
@@ -512,7 +538,7 @@ function updateModalForm(modalId, title, payload) {
 
     const modalForm = document.createElement("form");
     modalForm.className = "modalForm";
-    modalForm.id = "updateClient";
+    modalForm.id = modalId;
 
     const inputClientId = document.createElement("input");
     inputClientId.className = "inputClientId";
@@ -586,21 +612,25 @@ function updateModalForm(modalId, title, payload) {
     inputLastName.value = payload.lastName;
     inputGroupThird.append(labelLastName, inputLastName);
 
-    const addContact = document.createElement("div");
-    addContact.className =
-        payload.contacts.length > 5
-            ? "addContact addContactScroll"
-            : "addContact";
+    const addContactItems = document.createElement("div");
+    addContactItems.className =
+        payload.contacts.length > 4
+            ? "addContactLists addContactItemsScroll"
+            : "addContactLists";
 
     payload.contacts.forEach((c) => {
-        addContact.prepend(createContact(c));
+        ++countUpdateModal;
+        addContactItems.append(createContact(c));
     });
+
+    const addContact = document.createElement("div");
+    addContact.className = "addContact";
 
     const addContactBtn = document.createElement("button");
     addContactBtn.className = "addContactBtn pointer";
     addContactBtn.textContent = "Добавить контакт";
     addContactBtn.type = "button";
-    addContact.append(addContactBtn);
+    addContact.append(addContactItems, addContactBtn);
 
     const errorMessage = document.createElement("div");
     errorMessage.className = "errorMessage d-none";
@@ -609,7 +639,7 @@ function updateModalForm(modalId, title, payload) {
 
     const submitBtn = document.createElement("button");
     submitBtn.className = "submitBtn pointer";
-    submitBtn.id = modalId;
+    submitBtn.id = "clientUpdate";
     submitBtn.textContent = "Сохранить";
     submitBtn.type = "submit";
     submitBtn.onclick = submitFormUpdate;
@@ -634,23 +664,36 @@ function updateModalForm(modalId, title, payload) {
     modal.append(modalContent);
 
     modalClose.addEventListener("click", () => {
+        countUpdateModal = 0;
         modal.remove();
     });
 
     addContactBtn.addEventListener("click", () => {
-        addContact.prepend(createContact());
+        ++countUpdateModal;
+        if (countUpdateModal <= limit) {
+            addContactItems.append(createContact());
+        }
+        if (countUpdateModal >= 4) {
+            addContactItems.classList.add("addContactItemsScroll");
+        }
+        if (countUpdateModal === limit) {
+            addContactBtn.classList.add("d-none");
+        }
     });
 
     remove.addEventListener("click", () => {
-        wrapper.append(deleteClientModal(payload.id));
+        countUpdateModal = 0;
+        wrapper.append(deleteClientModal("deleteClient", payload.id));
         modal.remove();
     });
 
     window.onclick = (e) => {
         if (e.target == document.getElementById("updateModal")) {
+            countUpdateModal = 0;
             document.getElementById("updateModal").remove();
         }
     };
+
     return modal;
 }
 
@@ -674,23 +717,31 @@ function createContact(payload) {
 
     const select = document.createElement("div");
     select.className = "select";
-    select.textContent = (payload && payload.type) || "Телефон";
+    select.textContent = payload?.type || "Телефон";
 
     const selectLists = document.createElement("ul");
     selectLists.className = "selectLists d-none";
 
     const inputContact = document.createElement("input");
     inputContact.className = "inputContact";
-    inputContact.name = "tel";
+    inputContact.name = payload?.type || "tel";
     inputContact.type = "text";
-    inputContact.placeholder = "Введите данные контакта";
-    inputContact.value = (payload && payload.value) || null;
+    inputContact.placeholder = "Введите данные";
+    inputContact.value = payload?.value || null;
 
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "deleteBtn";
     deleteBtn.type = "button";
+
     // Удаление select + input при нажатии на кнопку с круглым крестиком
     deleteBtn.addEventListener("click", () => {
+        if (countCreateContact > 0) {
+            --countCreateContact;
+        }
+        if (countUpdateModal > 0) {
+            --countUpdateModal;
+        }
+        document.querySelector(".addContactBtn ").classList.remove("d-none");
         contactWraper.remove();
     });
 
@@ -699,8 +750,36 @@ function createContact(payload) {
         selectArrow.classList.toggle("selectArrowUp");
     });
 
+    select.addEventListener("mouseenter", () => {
+        selectLists.classList.remove("d-none");
+        selectArrow.classList.add("selectArrowUp");
+    });
+
+    selectWraper.addEventListener("mouseenter", () => {
+        selectLists.classList.remove("d-none");
+        selectArrow.classList.add("selectArrowUp");
+    });
+
+    selectWraper.addEventListener("mouseleave", () => {
+        selectLists.classList.add("d-none");
+        selectArrow.classList.remove("selectArrowUp");
+    });
+
     selectLists.addEventListener("click", () => {
         selectLists.classList.add("d-none");
+        selectArrow.classList.remove("selectArrowUp");
+    });
+
+    selectLists.addEventListener("mouseleave", () => {
+        selectLists.classList.add("d-none");
+        selectArrow.classList.remove("selectArrowUp");
+    });
+
+    inputContact.addEventListener("input", () => {
+        if (inputContact.value.trim() !== "") {
+            document.querySelector(".errorMessage").classList.add("d-none");
+            document.querySelector(".errorMessage").textContent = "";
+        }
     });
 
     contacts.forEach((c) => {
@@ -753,107 +832,6 @@ function toggleElements() {
     });
 }
 
-/* Функция вызова модального окна для изменения данных */
-const myTable = document.querySelector("#myTable");
-
-const handleEditBtn = (e) => {
-    const clickedButton = e.target; // Целевой элемент, на который было нажатие
-    const clickedRow = clickedButton.parentNode.parentNode; // Родительская строка, содержащая кнопку
-    const rowData = Array.from(clickedRow.children).map(
-        (cell) => cell.textContent
-    ); // Значения ячеек строки
-    return rowData[0];
-};
-
-myTable.addEventListener("click", (e) => {
-    if (e.target.classList.contains("btnEdit")) {
-        const clientId = handleEditBtn(e);
-        getClientById(clientId);
-    }
-});
-
-// Для удаления клиента
-const handleDeleteBtn = (e) => {
-    const clickedButton = e.target; // Целевой элемент, на который было нажатие
-    const clickedRow = clickedButton.parentNode.parentNode; // Родительская строка, содержащая кнопку
-    const rowData = Array.from(clickedRow.children).map(
-        (cell) => cell.textContent
-    ); // Значения ячеек строки
-
-    return rowData[0];
-};
-
-myTable.addEventListener("click", (e) => {
-    if (e.target.classList.contains("btnRemove")) {
-        const clientId = handleDeleteBtn(e);
-        const modal = deleteClientModal(clientId);
-        modal.classList.remove("d-none");
-        wrapper.append(modal);
-    }
-});
-
-function deleteClientModal(clientId) {
-    const modal = document.createElement("div");
-    modal.className = "modal";
-    modal.id = "deleteModal";
-
-    const modalContent = document.createElement("div");
-    modalContent.className = "modalContent modalContentDeleted";
-
-    const modalClose = document.createElement("div");
-    modalClose.className = "modalClose";
-
-    const modalTitle = document.createElement("h3");
-    modalTitle.className = "modalTitleDeleted";
-    modalTitle.textContent = "Удалить клиента";
-
-    const modalText = document.createElement("div");
-    modalText.className = "modalTextDeleted";
-    modalText.textContent = "Вы действительно хотите удалить данного клиента?";
-
-    const modalForm = document.createElement("form");
-    modalForm.className = "modalFormDeleted";
-    modalForm.id = "deleteClient";
-
-    const inputClientId = document.createElement("input");
-    inputClientId.className = "modalInputDeleted";
-    inputClientId.id = "clientId";
-    inputClientId.type = "text";
-    inputClientId.name = "clientId";
-    inputClientId.value = clientId;
-
-    const submitBtn = document.createElement("button");
-    submitBtn.className = "submitBtn pointer";
-    submitBtn.id = "deleteModalBtn";
-    submitBtn.textContent = "Удалить";
-    submitBtn.type = "submit";
-    submitBtn.onclick = submitFormDelete;
-
-    const cancel = document.createElement("div");
-    cancel.className = "cancelOrRemove pointer";
-    cancel.textContent = "Отменить";
-
-    modalForm.append(inputClientId, submitBtn, cancel);
-
-    modalContent.append(modalClose, modalTitle, modalText, modalForm);
-    modal.append(modalContent);
-
-    modalClose.addEventListener("click", () => {
-        modal.remove();
-    });
-
-    cancel.addEventListener("click", () => {
-        modal.remove();
-    });
-
-    window.onclick = (e) => {
-        if (e.target == document.getElementById("deleteModal")) {
-            document.getElementById("deleteModal").classList.add("d-none");
-        }
-    };
-    return modal;
-}
-
 /* Сортировка по заголовкам таблицы */
 const getAllTh = document.querySelectorAll("th");
 getAllTh.forEach((th, index) => {
@@ -872,31 +850,30 @@ window.onload = function () {
 
     // Метод для searchInput
     let searchInput = document.querySelector(".navSearchFormInput");
+    let timeoutId;
+
     searchInput.addEventListener("input", function () {
+        clearTimeout(timeoutId); // Очищаем предыдущий таймаут
         let searchText = this.value.toLowerCase();
-        let rows = document.getElementsByClassName("trBody");
 
-        for (let i = 0; i < rows.length; i++) {
-            let rowData = rows[i].textContent.toLowerCase();
-            if (rowData.includes(searchText)) {
-                rows[i].style.display = "";
-            } else {
-                rows[i].style.display = "none";
+        // Устанавливаем новый таймаут для отображения данных через 300 миллисекунд
+        timeoutId = setTimeout(function () {
+            let rows = document.getElementsByClassName("trBody");
+            for (let i = 0; i < rows.length; i++) {
+                let rowData = rows[i].textContent.toLowerCase();
+                if (rowData.includes(searchText)) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
             }
-        }
-    });
-
-    // Метод для отображения скрытых контактов
-    const toggleButton = document.querySelector(".toggleBtnContact");
-    toggleButton.addEventListener("click", () => {
-        toggleElements();
-        toggleButton.remove();
+        }, 300);
     });
 };
 
 function sortTable(columnIndex) {
     let table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("myTable");
+    table = document.getElementById("clientTabel");
     switching = true;
 
     // Инвертирование текущего направления сортировки
@@ -985,12 +962,13 @@ function getClients() {
     fetch("http://localhost:3000/api/clients")
         .then((response) => response.json())
         .then((data) => {
-            let table = document.getElementById("myTable");
-            let tbody = table.getElementsByTagName("tbody")[0];
+            const table = document.getElementById("clientTabel");
+            const tbody = table.getElementsByTagName("tbody")[0];
 
             if (Object.keys(data).length === 0) {
                 headScreenData.prepend(table, createSpinner());
             }
+
             // Очищаем содержимое tbody перед добавлением данных
             tbody.innerHTML = "";
 
@@ -1053,6 +1031,7 @@ function createClient(clientData) {
             const name = document.querySelector("#name");
             const starSurname = document.querySelector(".starSurname");
             const starName = document.querySelector(".starName");
+            const errorMessage = document.querySelector(".errorMessage");
             if (data.errors) {
                 console.log(data.errors);
                 data.errors.map((err) => {
@@ -1067,6 +1046,10 @@ function createClient(clientData) {
                             name.placeholder = err.message;
                             starName.classList.add("d-none");
                             break;
+                        case "contacts":
+                            errorMessage.classList.remove("d-none");
+                            errorMessage.textContent = err.message;
+                            break;
 
                         default:
                             break;
@@ -1078,21 +1061,53 @@ function createClient(clientData) {
             console.error("Ошибка при отправке данных:", error);
             const errors = document.querySelector(".errorMessage");
             errors.classList.remove("d-none");
+            errors.textContent = error;
         });
 }
 
+/* Функция вызова модального окна для изменения данных */
+const clientTabel = document.querySelector("#clientTabel");
+
+const handleEditBtn = (e) => {
+    const clickedButton = e.target; // Целевой элемент, на который было нажатие
+    const clickedRow = clickedButton.parentNode.parentNode.parentNode; // Родительская строка, содержащая кнопку
+    const rowData = Array.from(clickedRow.children).map(
+        (cell) => cell.textContent
+    ); // Значения ячеек строки
+    return {
+        id: rowData[0],
+        btn: clickedButton,
+        icon: clickedButton.children[0],
+    };
+};
+
+clientTabel.addEventListener("click", (e) => {
+    if (e.target.classList.contains("btnEdit")) {
+        const data = handleEditBtn(e);
+        getClientById(data);
+    }
+});
+
 /* Получаем client по id с backend */
-function getClientById(id) {
+function getClientById({ id, btn, icon }) {
     fetch(`http://localhost:3000/api/clients/${id}`)
         .then((response) => response.json())
         .then((data) => {
-            const modal = updateModalForm(
-                "editClient",
-                "Изменить данные",
-                data
-            );
-            modal.classList.remove("d-none");
-            wrapper.append(modal);
+            btn.classList.add("btnEditPending");
+            icon.className = "btnEditPendingIcon";
+
+            // Имитация задержки получения данных
+            setTimeout(() => {
+                btn.classList.remove("btnEditPending");
+                icon.className = "btnEditIcon";
+                const modal = updateModalForm(
+                    "updateClient",
+                    "Изменить данные",
+                    data
+                );
+                modal.classList.remove("d-none");
+                wrapper.append(modal);
+            }, 1000);
         })
         .catch((error) => {
             console.error("Ошибка при получении данных:", error);
@@ -1149,8 +1164,8 @@ function updateClient(id, clientData) {
             // Дальнейшая обработка ответа
             const surname = document.querySelector("#surname");
             const name = document.querySelector("#name");
+            const errorMessage = document.querySelector(".errorMessage");
             if (data.errors) {
-                console.log(data.errors);
                 data.errors.map((err) => {
                     switch (err.field) {
                         case "surname":
@@ -1160,6 +1175,10 @@ function updateClient(id, clientData) {
                         case "name":
                             name.classList.add("notValid");
                             name.placeholder = err.message;
+                            break;
+                        case "contacts":
+                            errorMessage.classList.remove("d-none");
+                            errorMessage.textContent = err.message;
                             break;
 
                         default:
@@ -1172,15 +1191,99 @@ function updateClient(id, clientData) {
             console.error("Ошибка при отправке данных:", error);
             const errors = document.querySelector(".errorMessage");
             errors.classList.remove("d-none");
+            errors.textContent = error;
         });
+}
+
+// Для удаления клиента
+const handleDeleteBtn = (e) => {
+    const clickedButton = e.target; // Целевой элемент, на который было нажатие
+    const clickedRow = clickedButton.parentNode.parentNode.parentNode; // Родительская строка, содержащая кнопку
+    const rowData = Array.from(clickedRow.children).map(
+        (cell) => cell.textContent
+    ); // Значения ячеек строки
+
+    return rowData[0];
+};
+
+clientTabel.addEventListener("click", (e) => {
+    if (e.target.classList.contains("btnRemove")) {
+        const clientId = handleDeleteBtn(e);
+        const modal = deleteClientModal("deleteClient", clientId);
+        modal.classList.remove("d-none");
+        wrapper.append(modal);
+    }
+});
+
+function deleteClientModal(modalId, clientId) {
+    const modal = document.createElement("div");
+    modal.className = "modal";
+    modal.id = "deleteModal";
+
+    const modalContent = document.createElement("div");
+    modalContent.className = "modalContent modalContentDeleted";
+
+    const modalClose = document.createElement("div");
+    modalClose.className = "modalClose";
+
+    const modalTitle = document.createElement("h3");
+    modalTitle.className = "modalTitleDeleted";
+    modalTitle.textContent = "Удалить клиента";
+
+    const modalText = document.createElement("div");
+    modalText.className = "modalTextDeleted";
+    modalText.textContent = "Вы действительно хотите удалить данного клиента?";
+
+    const modalForm = document.createElement("form");
+    modalForm.className = "modalFormDeleted";
+    modalForm.id = modalId;
+
+    const inputClientId = document.createElement("input");
+    inputClientId.className = "modalInputDeleted";
+    inputClientId.id = "clientId";
+    inputClientId.type = "text";
+    inputClientId.name = "clientId";
+    inputClientId.value = clientId;
+
+    const submitBtn = document.createElement("button");
+    submitBtn.className = "submitBtn pointer";
+    submitBtn.id = "deleteModalBtn";
+    submitBtn.textContent = "Удалить";
+    submitBtn.type = "submit";
+    submitBtn.onclick = submitFormDelete;
+
+    const cancel = document.createElement("div");
+    cancel.className = "cancelOrRemove pointer";
+    cancel.textContent = "Отменить";
+
+    modalForm.append(inputClientId, submitBtn, cancel);
+
+    modalContent.append(modalClose, modalTitle, modalText, modalForm);
+    modal.append(modalContent);
+
+    modalClose.addEventListener("click", () => {
+        modal.remove();
+    });
+
+    cancel.addEventListener("click", () => {
+        modal.remove();
+    });
+
+    window.onclick = (e) => {
+        if (e.target == document.getElementById("deleteModal")) {
+            document.getElementById("deleteModal").remove();
+        }
+    };
+    return modal;
 }
 
 // Удаляем данные клиента
 function submitFormDelete(e) {
     e.preventDefault();
     const form = document.querySelector("#deleteClient");
-    console.log(form);
+    console.log(form.elements["clientId"]);
     const clientId = form.elements["clientId"].value;
+    console.log(clientId);
     deleteClient(clientId);
 }
 function deleteClient(id) {
@@ -1202,7 +1305,7 @@ function deleteClient(id) {
 }
 
 // Получаем все заголовки таблицы
-const headersTable = document.querySelectorAll(".trHeadThData");
+const headersTable = document.querySelectorAll("#trHeaderTable");
 
 // Добавьте обработчик события для каждого заголовка
 headersTable.forEach((header) => {
