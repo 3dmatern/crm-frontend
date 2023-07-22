@@ -815,7 +815,7 @@ function createSpinner() {
     spinnerIconW.className = "spinnerIconW";
 
     const spinnerIcon = document.createElement("div");
-    spinnerIcon.className = "spinner-icon";
+    spinnerIcon.className = "spinnerIcon";
 
     spinnerIconW.appendChild(spinnerIcon);
     spinner.appendChild(spinnerIconW);
