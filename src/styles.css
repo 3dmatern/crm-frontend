@@ -937,9 +937,9 @@ li {
 
     .spinnerIconW {
         position: fixed;
-        width: 280px;
+        width: 100vw;
         height: 300px;
-
+        margin-left: 20px;
         background-color: #fff;
         padding: 132px 122px;
         pointer-events: none;
