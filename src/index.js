@@ -811,10 +811,14 @@ function createSpinner() {
     const spinner = document.createElement("div");
     spinner.className = "spinner";
 
+    const spinnerIconW = document.createElement("div");
+    spinnerIconW.className = "spinnerIconW";
+
     const spinnerIcon = document.createElement("div");
     spinnerIcon.className = "spinner-icon";
 
-    spinner.appendChild(spinnerIcon);
+    spinnerIconW.appendChild(spinnerIcon);
+    spinner.appendChild(spinnerIconW);
 
     return spinner;
 }

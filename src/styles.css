@@ -420,9 +420,7 @@ li {
 
 /* Стили спинера загрузки данных */
 .spinner {
-    width: 1024px;
-    top: 214px;
-    left: 0;
+    position: relative;
     z-index: 1;
     display: flex;
     align-items: center;
@@ -923,5 +921,19 @@ li {
 
         width: 216px;
         height: 45px;
+    }
+
+    .spinner {
+        background: none;
+    }
+
+    .spinnerIconW {
+        position: fixed;
+        width: 100vw;
+        height: 300px;
+
+        margin-left: 20px;
+        padding: 132px 152px;
+        background-color: #fff;
     }
 }
