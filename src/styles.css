@@ -915,4 +915,13 @@ li {
     .inputContact {
         width: 130px;
     }
+
+    .addClient {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 216px;
+        height: 45px;
+    }
 }
