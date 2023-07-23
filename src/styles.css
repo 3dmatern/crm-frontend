@@ -97,7 +97,7 @@ li {
     border-radius: 50%;
     z-index: 0;
 
-    background-image: url(../assets/userIcon.svg);
+    background-image: url(../assets/userIcon.png);
 }
 
 .navUserIconFill {
@@ -208,7 +208,7 @@ li {
 
 .trHeadThDataArrowDown,
 .trHeadThDataArrowUp {
-    background: url(../assets/arrowDown.svg) no-repeat left;
+    background: url(../assets/arrowDown.png) no-repeat left;
     padding-left: 12px;
     font-size: 10px;
     font-weight: 600;
@@ -216,7 +216,7 @@ li {
 }
 
 .trHeadThDataArrowUp {
-    background: url(../assets/arrowUp.svg) no-repeat left;
+    background: url(../assets/arrowUp.png) no-repeat left;
 }
 
 .tBody tbody {
@@ -279,22 +279,22 @@ li {
 }
 
 .tdContactsBodyDefaultIcon {
-    background: url(../assets/rest.svg) no-repeat center;
+    background: url(../assets/rest.png) no-repeat center;
 }
 .tdContactsBodyVKIcon {
-    background: url(../assets/vk.svg) no-repeat center;
+    background: url(../assets/vk.png) no-repeat center;
 }
 
 .tdContactsBodyFBIcon {
-    background: url(../assets/facebook.svg) no-repeat center;
+    background: url(../assets/facebook.png) no-repeat center;
 }
 
 .tdContactsBodyPhoneIcon {
-    background: url(../assets/phone.svg) no-repeat center;
+    background: url(../assets/phone.png) no-repeat center;
 }
 
 .tdContactsBodyEmailIcon {
-    background: url(../assets/email.svg) no-repeat center;
+    background: url(../assets/email.png) no-repeat center;
 }
 
 .toggleBtnContact {
@@ -303,7 +303,7 @@ li {
     padding: 2.5px 3px;
     text-align: center;
 
-    background: url(../assets/circle.svg) no-repeat center;
+    background: url(../assets/circle.png) no-repeat center;
 }
 
 .contactInfoWrapper {
@@ -311,7 +311,7 @@ li {
     top: -40px;
     left: 50%;
     transform: translate(-50%, 0);
-    background: url(../assets/info.svg) no-repeat center;
+    background: url(../assets/info.png) no-repeat center;
     width: 133px;
     height: 37.3px;
 
@@ -361,7 +361,7 @@ li {
     top: 3px;
     left: 0;
 
-    background: url(../assets/pen.svg) no-repeat left;
+    background: url(../assets/pen.png) no-repeat left;
     pointer-events: none;
 }
 
@@ -380,7 +380,7 @@ li {
     /* border: 2px solid #f3f3f3;
     border-top: 2px solid #9873ff; */
     border-radius: 50%;
-    background: url(../assets/pending.svg) no-repeat left;
+    background: url(../assets/pending.png) no-repeat left;
     animation: spinner-rotate 1s linear infinite;
 }
 
@@ -391,7 +391,7 @@ li {
 }
 
 .btnRemove {
-    background: url(../assets/cross.svg) no-repeat left;
+    background: url(../assets/cross.png) no-repeat left;
 }
 
 /* Создаем кнопку добавления клиента */
@@ -399,7 +399,7 @@ li {
     display: block;
     margin: 40px auto 0 auto;
 
-    background: url(../assets/addUser.svg) no-repeat 26.5px;
+    background: url(../assets/addUser.png) no-repeat 26.5px;
     padding: 12.5px 26.5px 12.5px 58.5px;
 
     color: #9873ff;
@@ -408,7 +408,7 @@ li {
 .addClient:hover,
 .addClient:focus {
     background-color: #9873ff;
-    background-image: url(../assets/addUserFocus.svg);
+    background-image: url(../assets/addUserFocus.png);
     background-repeat: no-repeat;
     background-position: 26.5px;
 
@@ -437,7 +437,7 @@ li {
     /* border: 4px solid #f3f3f3;
     border-top: 4px solid #3498db; */
     border-radius: 50%;
-    background: url(../assets/spiner.svg) no-repeat center;
+    background: url(../assets/spinner.png) no-repeat center;
     animation: spinner-rotate 1s linear infinite;
     pointer-events: none;
 }
@@ -492,7 +492,7 @@ li {
 
     width: 29px;
     height: 29px;
-    background: url(../assets/closeModal.svg) no-repeat center;
+    background: url(../assets/closeModal.png) no-repeat center;
 }
 
 .modalClose:hover,
@@ -638,7 +638,7 @@ li {
 }
 
 .addContactBtn {
-    background: url(../assets/circlePlus.svg) no-repeat left;
+    background: url(../assets/circlePlus.png) no-repeat left;
     padding-left: 20px;
     font-weight: 600;
     color: #333;
@@ -739,12 +739,12 @@ li {
     width: 12px;
     height: 12px;
 
-    background: url(../assets/arrowDownSelect.svg) no-repeat center;
+    background: url(../assets/arrowDownSelect.png) no-repeat center;
     pointer-events: none;
 }
 
 .selectArrowUp {
-    background: url(../assets/arrowUpSelect.svg) no-repeat center;
+    background: url(../assets/arrowUpSelect.png) no-repeat center;
 }
 
 .selectLists {
@@ -795,7 +795,7 @@ li {
     cursor: pointer;
 
     background-color: #e7e5eb;
-    background-image: url(../assets/deleteBtn.svg);
+    background-image: url(../assets/deleteBtn.png);
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -856,7 +856,7 @@ li {
         border-radius: 50%;
         z-index: 0;
 
-        background-image: url(../assets/userIconMobile.svg);
+        background-image: url(../assets/userIconMobile.png);
     }
 
     .navSearchForm {
