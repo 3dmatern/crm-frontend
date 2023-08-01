@@ -2,43 +2,49 @@ const headers = [
     {
         id: "1",
         title: "ID",
-        className: "trHeadThData-first",
+        className: "idCol",
         sort: "",
+        dataSort: "id",
         clicked: true,
     },
     {
         id: "2",
         title: "Фамилия Имя Отчество",
-        className: "trHeadThData-second",
+        className: "fioCol",
         sort: "А-Я",
+        dataSort: "fio",
         clicked: true,
     },
     {
         id: "3",
         title: "Дата и время создания",
-        className: "trHeadThData-third",
+        className: "dateCol dateCol-headerDate",
         sort: "",
+        dataSort: "createdAt",
         clicked: true,
     },
     {
         id: "4",
         title: "Последние изменения",
-        className: "trHeadThData-fourth",
+        className: "dateCol dateCol-headerDate",
         sort: "",
+        dataSort: "updatedAt",
         clicked: true,
     },
     {
         id: "5",
         title: "Контакты",
-        className: "trHeadThData-fiveth",
+        className: "contactCol",
         sort: "",
+        dataSort: "",
         clicked: false,
     },
     {
         id: "6",
         title: "Действия",
-        className: "trHeadThData-sixth",
+        className: "actionCol",
         sort: "",
+        dataSort: "",
         clicked: false,
     },
 ];
@@ -97,63 +103,74 @@ headScreenData.className = "headScreenData";
 
 headScreen.append(title, headScreenData);
 
-// Создаем таблицу
-const table = document.createElement("table");
-table.className = "table";
-table.id = "clientTabel";
+// Создаем div-таблицу
+const divTable = document.createElement("div");
+divTable.className = "divTable";
+divTable.id = "clientTabel";
 
-const tHead = document.createElement("thead");
-const trHead = document.createElement("tr");
+const divTHeaders = document.createElement("div");
+divTHeaders.className = "divTHeaders";
 
 // Создаем фунцию для генерации заголовков таблицы
-const createDataHeader = ({ id, title, className, sort, clicked }) => {
-    const th = document.createElement("th");
-    th.scope = "col";
-
-    const header = document.createElement("div");
-    header.id = "trHeaderTable";
-    header.className = clicked
+const createDivTHeaderItem = ({
+    id,
+    title,
+    className,
+    sort,
+    dataSort,
+    clicked,
+}) => {
+    const divTableHeader = document.createElement("div");
+    divTableHeader.id = "divTHeader";
+    divTableHeader.className = clicked
         ? id === "1"
-            ? ` ${className} pointer trHeadThDataActive`
+            ? ` ${className} pointer divTHeaderActive`
             : ` ${className} pointer`
         : ` ${className}`;
-    header.textContent = title;
-    th.append(header);
+    dataSort !== "" && divTableHeader.setAttribute("data-sort", dataSort);
+    divTableHeader.textContent = title;
 
     const span = document.createElement("span");
-    span.className = "trHeadThDataArrowDown";
+    span.className = "divTHeaderArrowDown";
     sort !== "" ? (span.textContent = sort) : null;
 
-    clicked && header.append(span);
+    clicked && divTableHeader.append(span);
 
-    header.addEventListener("click", () => {
+    divTableHeader.addEventListener("click", () => {
         if (span.textContent === "А-Я") {
             span.textContent = "Я-А";
-            span.classList.add("trHeadThDataArrowUp");
+            span.classList.add("divTHeaderArrowUp");
+
+            // Вызов функции для сортировки элементов по убыванию
+            sortItems("desc");
         } else if (span.textContent === "Я-А") {
             span.textContent = "А-Я";
-            span.classList.remove("trHeadThDataArrowUp");
+            span.classList.remove("divTHeaderArrowUp");
+
+            // Вызов функции для сортировки элементов по возрастанию
+            sortItems("asc");
         } else {
-            span.classList.toggle("trHeadThDataArrowUp");
+            span.classList.toggle("divTHeaderArrowUp");
+
+            // Вызов функции для сортировки элементов в обратном порядке
+            sortItems("reverse");
         }
     });
 
-    return th;
+    return divTableHeader;
 };
 
 headers.forEach((header) => {
-    const headerItem = createDataHeader(header);
-    trHead.append(headerItem);
+    const headerItem = createDivTHeaderItem(header);
+    divTHeaders.append(headerItem);
 });
 
-tHead.append(trHead);
-
 // Создаем тело таблицы
-const tBody = document.createElement("tbody");
-tBody.className = "tBody";
+const divTBody = document.createElement("div");
+divTBody.className = "divTBody";
 
 // Создаем фунцию для вывода каждого клиента в таблицу
-const createDataBody = ({
+const createDivTBodyItem = ({
     id,
     surname,
     name,
@@ -162,58 +179,43 @@ const createDataBody = ({
     updatedAt,
     contacts,
 }) => {
-    const tr = document.createElement("tr");
-    tr.className = "trBody";
-    tr.id = id;
+    const divTBodyItem = document.createElement("div");
+    divTBodyItem.className = "divTBodyItem";
+    divTBodyItem.id = id;
 
     // ID
-    const thId = document.createElement("th");
-    thId.className = "thId";
-    thId.scope = "row";
-
-    const thIdBody = document.createElement("div");
-    thIdBody.className = "thIdBody";
-    thIdBody.textContent = id;
-    thId.append(thIdBody);
+    const itemId = document.createElement("div");
+    itemId.className = "idCol itemId";
+    itemId.textContent = id;
 
     // ФИО
-    const tdFullName = document.createElement("td");
-    tdFullName.className = "tdFullName";
-
-    const tdFullNameBody = document.createElement("div");
-    tdFullNameBody.textContent = `${surname} ${name} ${lastName}`;
-    tdFullName.append(tdFullNameBody);
+    const itemFullName = document.createElement("div");
+    itemFullName.className = "fioCol itemFullName";
+    itemFullName.textContent = `${surname} ${name} ${lastName}`;
 
     // Дата и время создания клиента
-    const tdCreatedAt = document.createElement("td");
-
-    const tdCreatedAtBody = document.createElement("div");
-    tdCreatedAtBody.className = "tdDateAtBody";
-    tdCreatedAtBody.textContent = formatDate(createdAt).dayMonthYear;
+    const itemCreatedAt = document.createElement("div");
+    itemCreatedAt.className = "dateCol itemDate";
+    itemCreatedAt.textContent = formatDate(createdAt).dayMonthYear;
     // Время
-    const tdCreatedAtBodyTime = document.createElement("div");
-    tdCreatedAtBodyTime.className = "tdDateBodyTime";
-    tdCreatedAtBodyTime.textContent = formatDate(createdAt).time;
-    tdCreatedAt.append(tdCreatedAtBody, tdCreatedAtBodyTime);
+    const itemCreatedAtTime = document.createElement("div");
+    itemCreatedAtTime.className = "itemDateTime";
+    itemCreatedAtTime.textContent = formatDate(createdAt).time;
+    itemCreatedAt.append(itemCreatedAtTime);
 
     // Дата и время последнего изменения клиента
-    const tdUpdatedAt = document.createElement("td");
-
-    const tdUpdatedAtBody = document.createElement("div");
-    tdUpdatedAtBody.className = "tdDateAtBody";
-    tdUpdatedAtBody.textContent = formatDate(updatedAt).dayMonthYear;
+    const itemUpdatedAt = document.createElement("div");
+    itemUpdatedAt.className = "dateCol itemDate";
+    itemUpdatedAt.textContent = formatDate(updatedAt).dayMonthYear;
     // Время
     const tdUpdatedAtBodyTime = document.createElement("div");
-    tdUpdatedAtBodyTime.className = "tdDateBodyTime";
+    tdUpdatedAtBodyTime.className = "itemDateTime";
     tdUpdatedAtBodyTime.textContent = formatDate(updatedAt).time;
-    tdUpdatedAt.append(tdUpdatedAtBody, tdUpdatedAtBodyTime);
+    itemUpdatedAt.append(tdUpdatedAtBodyTime);
 
     // Контакты
-    const tdContacts = document.createElement("td");
-    tdContacts.className = "tdContacts";
-
-    const tdContactsBody = document.createElement("div");
-    tdContactsBody.className = "tdContactsBody";
+    const itemContacts = document.createElement("div");
+    itemContacts.className = "contactCol itemContacts";
 
     // Скрываем часть контактов
     contacts.forEach((contact, index) => {
@@ -241,6 +243,9 @@ const createDataBody = ({
         const contactInfoWrapper = document.createElement("div");
         contactInfoWrapper.className = "contactInfoWrapper d-none";
 
+        const romb = document.createElement("span");
+        romb.className = "romb";
+
         const contactInfo = document.createElement("span");
         contactInfo.className = "contactInfo";
         contactInfo.textContent = "contactInfo";
@@ -267,27 +272,27 @@ const createDataBody = ({
         }
 
         contactInfo.append(contactInfoId);
-        contactInfoWrapper.append(contactInfo);
+        contactInfoWrapper.append(romb, contactInfo);
         item.append(contactInfoWrapper);
 
         switch (contact.type) {
             case "vk":
-                item.className += " tdContactsBodyVKIcon";
+                item.className += " itemContactsVKIcon";
                 break;
             case "fb":
-                item.className += " tdContactsBodyFBIcon";
+                item.className += " itemContactsFBIcon";
                 break;
             case "tel":
-                item.className += " tdContactsBodyPhoneIcon";
+                item.className += " itemContactsPhoneIcon";
                 break;
             case "email":
-                item.className += " tdContactsBodyEmailIcon";
+                item.className += " itemContactsEmailIcon";
                 break;
             default:
-                item.className += " tdContactsBodyDefaultIcon";
+                item.className += " itemContactsDefaultIcon";
                 break;
         }
-        tdContactsBody.append(item);
+        itemContacts.append(item);
 
         item.addEventListener("mouseenter", () => {
             contactInfoWrapper.classList.remove("d-none");
@@ -307,8 +312,7 @@ const createDataBody = ({
         (toggleBtnContent.textContent = "+" + contacts.length - 4);
 
     toggleBtnContact.append(toggleBtnContent);
-    contacts.length > 4 && tdContactsBody.append(toggleBtnContact);
-    tdContacts.append(tdContactsBody);
+    contacts.length > 4 && itemContacts.append(toggleBtnContact);
 
     toggleBtnContact.addEventListener("click", () => {
         toggleElements();
@@ -316,12 +320,10 @@ const createDataBody = ({
     });
 
     // Действия:
-    // Кнопка "Изменить"
-    const tdActionEdit = document.createElement("td");
-    tdActionEdit.colSpan = 2;
-    const tdCActionEditBody = document.createElement("div");
-    tdCActionEditBody.className = "tdCActionsBody";
+    const itemActions = document.createElement("div");
+    itemActions.className = "actionCol itemActions";
 
+    // Кнопка "Изменить"
     const btnEdit = document.createElement("button");
     btnEdit.className = "btnEdit pointer";
     btnEdit.textContent = "Изменить";
@@ -330,29 +332,25 @@ const createDataBody = ({
     btnEditIcon.className = "btnEditIcon";
     btnEdit.append(btnEditIcon);
 
-    tdCActionEditBody.append(btnEdit);
-
     // Кнопка "Удалить";
-    const tdCActionRemoveBody = document.createElement("div");
-    tdCActionRemoveBody.className = "tdCActionsBody";
-
     const btnRemove = document.createElement("button");
     btnRemove.className = "btnRemove pointer";
     btnRemove.textContent = "Удалить";
-    tdCActionEditBody.append(btnRemove);
-    tdActionEdit.append(tdCActionEditBody);
+    itemActions.append(btnEdit, btnRemove);
 
-    tr.append(
-        thId,
-        tdFullName,
-        tdCreatedAt,
-        tdUpdatedAt,
-        tdContacts,
-        tdActionEdit
+    divTBodyItem.append(
+        itemId,
+        itemFullName,
+        itemCreatedAt,
+        itemUpdatedAt,
+        itemContacts,
+        itemActions
     );
 
-    return tr;
+    return divTBodyItem;
 };
+
+divTable.append(divTHeaders, divTBody);
 
 /* Создаем кнопку добавления клиента */
 const addClient = document.createElement("button");
@@ -364,8 +362,7 @@ addClient.addEventListener("click", () => {
     wrapper.append(modal);
 });
 
-table.append(tHead, tBody);
-headScreenData.append(table, addClient);
+headScreenData.append(divTable, addClient);
 
 /* Функция модального окна с формой для создания клиента */
 function createModalForm(modalId, title) {
@@ -811,14 +808,10 @@ function createSpinner() {
     const spinner = document.createElement("div");
     spinner.className = "spinner";
 
-    const spinnerIconW = document.createElement("div");
-    spinnerIconW.className = "spinnerIconW";
-
     const spinnerIcon = document.createElement("div");
     spinnerIcon.className = "spinnerIcon";
 
-    spinnerIconW.appendChild(spinnerIcon);
-    spinner.appendChild(spinnerIconW);
+    spinner.appendChild(spinnerIcon);
 
     return spinner;
 }
@@ -836,21 +829,40 @@ function toggleElements() {
     });
 }
 
-/* Сортировка по заголовкам таблицы */
-const getAllTh = document.querySelectorAll("th");
-getAllTh.forEach((th, index) => {
-    if (index < 4) {
-        th.onclick = () => sortTable(index);
-    }
-});
+// Функция для сортировки элементов таблицы
+const sortItems = (order) => {
+    const divTBody = document.querySelector(".divTBody");
+    const items = Array.from(divTBody.children);
+
+    items.sort((a, b) => {
+        if (a && b) {
+            const textA = a.textContent || "";
+            const textB = b.textContent || "";
+
+            if (order === "asc") {
+                return textA.localeCompare(textB);
+            } else if (order === "desc") {
+                return textB.localeCompare(textA);
+            } else if (order === "reverse") {
+                return -1;
+            }
+        }
+        return 0;
+    });
+
+    divTBody.innerHTML = "";
+    items.forEach((item) => {
+        divTBody.appendChild(item);
+    });
+};
 
 let sortDirections = [1, 0, 0, 0]; // Устанавливаем активную сортировку по ID
 
 window.onload = function () {
     document
-        .querySelector(".trHeadThData-first")
-        .children[0].classList.add("trHeadThDataArrowUp");
-    sortTable(0); // Вызываем сортировку по ID при загрузке страницы
+        .querySelector(".idCol")
+        .children[0].classList.add("divTHeaderArrowUp");
+    sortItems("reverse"); // Вызываем сортировку по ID при загрузке страницы
 
     // Метод для searchInput
     let searchInput = document.querySelector(".navSearchFormInput");
@@ -862,7 +874,7 @@ window.onload = function () {
 
         // Устанавливаем новый таймаут для отображения данных через 300 миллисекунд
         timeoutId = setTimeout(function () {
-            let rows = document.getElementsByClassName("trBody");
+            let rows = document.getElementsByClassName("divTBodyItem");
             for (let i = 0; i < rows.length; i++) {
                 let rowData = rows[i].textContent.toLowerCase();
                 if (rowData.includes(searchText)) {
@@ -874,56 +886,6 @@ window.onload = function () {
         }, 300);
     });
 };
-
-function sortTable(columnIndex) {
-    let table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("clientTabel");
-    switching = true;
-
-    // Инвертирование текущего направления сортировки
-    sortDirections[columnIndex] ^= 1;
-
-    while (switching) {
-        switching = false;
-        rows = table.rows;
-
-        for (i = 1; i < rows.length - 1; i++) {
-            shouldSwitch = false;
-
-            x = rows[i].cells[columnIndex];
-            y = rows[i + 1].cells[columnIndex];
-
-            if (compareColumnValues(x, y, columnIndex) > 0) {
-                shouldSwitch = true;
-                break;
-            }
-        }
-
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-        }
-    }
-}
-
-function compareColumnValues(cell1, cell2, columnIndex) {
-    let value1, value2;
-
-    if (cell1.getAttribute("data-sort-type") === "date") {
-        value1 = new Date(cell1.innerHTML);
-        value2 = new Date(cell2.innerHTML);
-    } else {
-        value1 = cell1.innerHTML.toLowerCase();
-        value2 = cell2.innerHTML.toLowerCase();
-    }
-
-    // Учитываем текущее направление сортировки
-    if (sortDirections[columnIndex] === 0) {
-        return value1 > value2 ? 1 : -1;
-    } else {
-        return value1 < value2 ? 1 : -1;
-    }
-}
 
 /* Функция форматирования даты */
 function formatDate(date) {
@@ -966,23 +928,25 @@ function getClients() {
     fetch("http://localhost:3000/api/clients")
         .then((response) => response.json())
         .then((data) => {
-            const table = document.getElementById("clientTabel");
-            const tbody = table.getElementsByTagName("tbody")[0];
+            const divTable = document.getElementById("clientTabel");
+            const divTBody = divTable.getElementsByClassName("divTBody")[0];
 
             if (Object.keys(data).length === 0) {
-                headScreenData.prepend(table, createSpinner());
+                divTBody.append(createSpinner());
+                return;
             }
 
-            // Очищаем содержимое tbody перед добавлением данных
-            tbody.innerHTML = "";
+            // Очищаем содержимое divTBody перед добавлением данных
+            divTBody.innerHTML = "";
 
             // Добавляем строки с данными в таблицу
             data.forEach((item) => {
-                tbody.appendChild(createDataBody(item));
+                divTBody.appendChild(createDivTBodyItem(item));
             });
         })
         .catch((error) => {
             console.error("Ошибка при получении данных:", error);
+            divTBody.append(createSpinner());
         });
 }
 
@@ -1074,7 +1038,7 @@ const clientTabel = document.querySelector("#clientTabel");
 
 const handleEditBtn = (e) => {
     const clickedButton = e.target; // Целевой элемент, на который было нажатие
-    const clickedRow = clickedButton.parentNode.parentNode.parentNode; // Родительская строка, содержащая кнопку
+    const clickedRow = clickedButton.parentNode.parentNode; // Родительская строка, содержащая кнопку
     const rowData = Array.from(clickedRow.children).map(
         (cell) => cell.textContent
     ); // Значения ячеек строки
@@ -1202,7 +1166,7 @@ function updateClient(id, clientData) {
 // Для удаления клиента
 const handleDeleteBtn = (e) => {
     const clickedButton = e.target; // Целевой элемент, на который было нажатие
-    const clickedRow = clickedButton.parentNode.parentNode.parentNode; // Родительская строка, содержащая кнопку
+    const clickedRow = clickedButton.parentNode.parentNode; // Родительская строка, содержащая кнопку
     const rowData = Array.from(clickedRow.children).map(
         (cell) => cell.textContent
     ); // Значения ячеек строки
@@ -1290,6 +1254,7 @@ function submitFormDelete(e) {
     console.log(clientId);
     deleteClient(clientId);
 }
+
 function deleteClient(id) {
     fetch(`http://localhost:3000/api/clients/${id}`, {
         method: "DELETE",
@@ -1309,17 +1274,19 @@ function deleteClient(id) {
 }
 
 // Получаем все заголовки таблицы
-const headersTable = document.querySelectorAll("#trHeaderTable");
+const headersTable = document.querySelectorAll("#divTHeader");
 
 // Добавьте обработчик события для каждого заголовка
-headersTable.forEach((header) => {
-    header.addEventListener("click", () => {
-        // Удалите класс "active" у всех заголовков таблицы
-        headersTable.forEach((h) => {
-            h.classList.remove("trHeadThDataActive");
-        });
+headersTable.forEach((header, index) => {
+    if (index < 4) {
+        header.addEventListener("click", () => {
+            // Удалите класс "active" у всех заголовков таблицы
+            headersTable.forEach((h) => {
+                h.classList.remove("divTHeaderActive");
+            });
 
-        // Добавьте класс "active" только выбранному заголовку
-        header.classList.add("trHeadThDataActive");
-    });
+            // Добавьте класс "active" только выбранному заголовку
+            header.classList.add("divTHeaderActive");
+        });
+    }
 });

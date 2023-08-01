@@ -158,56 +158,33 @@ li {
     margin: 10px 0 40px 0;
 }
 
-.table {
-    border-spacing: 0;
+/* Стили таблицы */
+.divTable {
+    width: 984px;
+    height: 360px;
+    margin: 0 auto;
+
+    overflow: visible;
 }
 
-.table thead tr th {
-    padding-bottom: 8px;
-    vertical-align: bottom;
+.divTHeaders {
+    display: flex;
+    align-items: flex-end;
 
-    text-align: start;
+    width: 100%;
+    height: 60px;
 
     color: #b0b0b0;
     font-size: 12px;
     font-weight: 400;
-
-    padding: 10px;
 }
 
-.trHeadThDataActive {
+.divTHeaderActive {
     color: #9873ff;
 }
 
-.trHeadThData-first,
-.table thead tr th:nth-child(1) {
-    text-align: center;
-}
-
-.trHeadThData-second,
-.table thead tr th:nth-child(2) {
-    width: 230px;
-}
-
-.trHeadThData-third,
-.trHeadThData-fourth,
-.table thead tr th:nth-child(3),
-.table thead tr th:nth-child(4) {
-    width: 118px;
-}
-
-.trHeadThData-fiveth,
-.table thead tr th:nth-child(5) {
-    width: 108px;
-}
-
-.trHeadThData-sixth,
-.table thead tr th:nth-child(6) {
-    width: auto;
-}
-
-.trHeadThDataArrowDown,
-.trHeadThDataArrowUp {
+.divTHeaderArrowDown,
+.divTHeaderArrowUp {
     background: url(../assets/arrowDown.png) no-repeat left;
     padding-left: 12px;
     font-size: 10px;
@@ -215,61 +192,93 @@ li {
     color: #9873ff;
 }
 
-.trHeadThDataArrowUp {
+.divTHeaderArrowUp {
     background: url(../assets/arrowUp.png) no-repeat left;
 }
 
-.tBody tbody {
+.idCol {
+    width: 110px;
+    text-align: center;
+    padding: 10px;
+}
+
+.fioCol {
+    width: 230px;
+    padding: 10px;
+}
+
+.dateCol {
+    width: 138px;
+}
+
+.dateCol-headerDate {
+    padding: 10px 38px 10px 10px;
+}
+
+.contactCol {
+    width: 118px;
+    padding: 10px;
+}
+
+.actionCol {
+    width: auto;
+    padding: 10px;
+}
+
+.divTBody {
     position: relative;
     z-index: 0;
-    border: none;
+    width: 100%;
+    height: 300px;
+    background-color: #fff;
+
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+.divTBody::-webkit-scrollbar {
+    width: 0 !important;
 }
 
-.tBody tr {
+.divTBodyItem {
+    display: flex;
+    align-items: center;
+    width: 100%;
     height: 60px;
-    background: #fff;
-    border-bottom: 1px solid #c8c5d187;
+
+    padding: 10px;
 }
 
-.tBody tr th {
+.itemId {
     color: #b0b0b0;
     font-size: 12px;
-    font-weight: 400;
-    padding: 10px;
 }
 
-.tBody tr td {
-    padding: 10px;
-}
-
-.tdFullName {
+.itemFullName {
     padding: 0;
 }
 
-.tdDateAtBody {
-    display: inline;
-}
-
-.tdDateBodyTime {
+.itemDateTime {
     display: inline;
     color: #b0b0b0;
     padding-left: 10px;
 }
 
-.tdContactsBody {
-    width: 108px;
+.itemContacts {
+    width: 118px;
     display: flex;
     flex-wrap: wrap;
     row-gap: 7px;
     column-gap: 7px;
     margin: 0;
+    padding-left: 0;
 }
 
-.tdContactsBodyEmailIcon,
-.tdContactsBodyPhoneIcon,
-.tdContactsBodyFBIcon,
-.tdContactsBodyVKIcon,
-.tdContactsBodyDefaultIcon {
+.itemContactsEmailIcon,
+.itemContactsPhoneIcon,
+.itemContactsFBIcon,
+.itemContactsVKIcon,
+.itemContactsDefaultIcon {
     position: relative;
     z-index: 0;
 
@@ -278,22 +287,22 @@ li {
     border-radius: 50%;
 }
 
-.tdContactsBodyDefaultIcon {
+.itemContactsDefaultIcon {
     background: url(../assets/rest.png) no-repeat center;
 }
-.tdContactsBodyVKIcon {
+.itemContactsVKIcon {
     background: url(../assets/vk.png) no-repeat center;
 }
 
-.tdContactsBodyFBIcon {
+.itemContactsFBIcon {
     background: url(../assets/facebook.png) no-repeat center;
 }
 
-.tdContactsBodyPhoneIcon {
+.itemContactsPhoneIcon {
     background: url(../assets/phone.png) no-repeat center;
 }
 
-.tdContactsBodyEmailIcon {
+.itemContactsEmailIcon {
     background: url(../assets/email.png) no-repeat center;
 }
 
@@ -308,15 +317,29 @@ li {
 
 .contactInfoWrapper {
     position: absolute;
-    top: -40px;
-    left: 50%;
+    top: -45px;
+    left: 49%;
+    z-index: 99999;
     transform: translate(-50%, 0);
-    background: url(../assets/info.png) no-repeat center;
-    width: 133px;
+    background: #333;
+    width: max-content;
     height: 37.3px;
 
     text-align: center;
-    padding: 4px 0 7px 0;
+    padding: 7px 14px;
+}
+.romb {
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    transform: translateX(-50%);
+
+    display: block;
+    width: 10px;
+    height: 10px;
+    rotate: 45deg;
+
+    background-color: #333;
 }
 
 .contactInfo {
@@ -343,9 +366,10 @@ li {
     line-height: normal;
 }
 
-.tdCActionsBody {
+.itemActions {
     display: flex;
     column-gap: 30px;
+    padding: 10px;
 }
 
 .btnRemove,
@@ -380,7 +404,7 @@ li {
     /* border: 2px solid #f3f3f3;
     border-top: 2px solid #9873ff; */
     border-radius: 50%;
-    background: url(../assets/pending.png) no-repeat left;
+    background: url(../assets/pennding.png) no-repeat left;
     animation: spinner-rotate 1s linear infinite;
 }
 
@@ -420,13 +444,17 @@ li {
 
 /* Стили спинера загрузки данных */
 .spinner {
-    position: relative;
-    z-index: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 300px;
+    width: 36px;
+    height: 36px;
 
     background-color: #fff;
 }
@@ -801,44 +829,48 @@ li {
 }
 
 @media (max-width: 768px) {
+    .divTable,
     .wrapper {
         width: 768px;
     }
 
-    .trHeadThData-second,
-    .table thead tr th:nth-child(2) {
-        width: 170px;
-    }
-
-    .trHeadThData-third,
-    .trHeadThData-fourth,
-    .table thead tr th:nth-child(3),
-    .table thead tr th:nth-child(4) {
-        width: 80px;
-    }
-
-    .tdFullName {
+    .fioCol {
         width: 200px;
-        padding: 0;
     }
 
-    .tdDateAtBody {
-        display: block;
+    .dateCol,
+    .dateCol-headerDate {
+        width: 102px;
+        padding: 10px;
     }
 
-    .tdDateBodyTime {
+    .contactCol {
+        width: 108px;
+    }
+
+    .actionCol {
+        width: 86px;
+    }
+
+    .itemDate {
         padding-left: 0;
     }
 
-    .tdContactsBody {
-        width: 100px;
-        row-gap: 5px;
-        column-gap: 5px;
+    .itemDateTime {
+        display: block;
+        padding-left: 0;
     }
 
-    .tdCActionsBody {
+    .itemContacts {
+        width: 108px;
+        row-gap: 4px;
+        column-gap: 4px;
+    }
+
+    .itemActions {
         display: block;
         column-gap: 0;
+        padding-left: 0;
     }
 }
 
@@ -915,6 +947,16 @@ li {
         width: 130px;
     }
 
+    .starName,
+    .starSurname,
+    .star {
+        left: 82px;
+    }
+
+    .starName {
+        left: 48px;
+    }
+
     .addClient {
         position: fixed;
         left: 50%;
@@ -925,6 +967,13 @@ li {
     }
 
     .spinner {
+        position: fixed;
+        top: 360px;
+        width: 100vw;
+        height: 36px;
+        padding: 36px 36px;
+        pointer-events: none;
+
         overflow-x: scroll;
         -ms-overflow-style: none;
         overflow: -moz-scrollbars-none;
@@ -933,15 +982,5 @@ li {
 
     .spinner::-webkit-scrollbar {
         width: 0 !important;
-    }
-
-    .spinnerIconW {
-        position: fixed;
-        width: 100vw;
-        height: 300px;
-        margin-left: 20px;
-        background-color: #fff;
-        padding: 132px 122px;
-        pointer-events: none;
     }
 }
