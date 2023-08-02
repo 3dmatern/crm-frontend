@@ -226,6 +226,8 @@ li {
 }
 
 .divTBody {
+    position: relative;
+    z-index: 0;
     width: 100%;
     height: 300px;
     background-color: #fff;
@@ -824,10 +826,6 @@ li {
 
 .selectLists-up {
     bottom: 35px;
-}
-
-.selectLists-down {
-    top: 35px;
 }
 
 .selectListsItem {

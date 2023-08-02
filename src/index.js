@@ -485,8 +485,11 @@ function createModalForm(modalId, title) {
 
     addContactBtn.addEventListener("click", () => {
         ++countCreateContact;
-        if (countCreateContact <= limit) {
+        if (countCreateContact <= 3) {
             addContactItems.append(createContact());
+        }
+        if (countCreateContact >= 4) {
+            addContactItems.append(createContact(null, "selectLists-up"));
         }
         if (countCreateContact >= 4) {
             addContactItems.classList.add("addContactItemsScroll");
@@ -612,9 +615,14 @@ function updateModalForm(modalId, title, payload) {
             ? "addContactLists addContactItemsScroll"
             : "addContactLists";
 
-    payload.contacts.forEach((c) => {
+    payload.contacts.forEach((c, index) => {
         ++countUpdateModal;
-        addContactItems.append(createContact(c));
+        if (index < 3) {
+            addContactItems.append(createContact(c));
+        }
+        if (index >= 4) {
+            addContactItems.append(createContact(c, "selectLists-up"));
+        }
     });
 
     const addContact = document.createElement("div");
@@ -664,8 +672,11 @@ function updateModalForm(modalId, title, payload) {
 
     addContactBtn.addEventListener("click", () => {
         ++countUpdateModal;
-        if (countUpdateModal <= limit) {
+        if (countUpdateModal <= 3) {
             addContactItems.append(createContact());
+        }
+        if (countUpdateModal >= 4) {
+            addContactItems.append(createContact(null, "selectLists-up"));
         }
         if (countUpdateModal >= 4) {
             addContactItems.classList.add("addContactItemsScroll");
@@ -692,12 +703,12 @@ function updateModalForm(modalId, title, payload) {
 }
 
 /* Функция ввода контакта */
-function createContact(payload) {
+function createContact(contact, position) {
     const contactWraper = document.createElement("div");
     contactWraper.className = "contactWraper";
 
     const contacts = [
-        { type: "tel", value: "Доп. телефон" },
+        { type: "tel", value: "Телефон" },
         { type: "email", value: "Email" },
         { type: "vk", value: "VK" },
         { type: "fb", value: "Facebook" },
@@ -711,17 +722,18 @@ function createContact(payload) {
 
     const select = document.createElement("div");
     select.className = "select";
-    select.textContent = payload?.type || "Телефон";
+    const selectName = contacts.find((c) => c.type === contact?.type);
+    select.textContent = selectName?.value || "Телефон";
 
     const selectLists = document.createElement("ul");
-    selectLists.className = "selectLists d-none";
+    selectLists.className = "selectLists d-none " + position ?? "";
 
     const inputContact = document.createElement("input");
     inputContact.className = "inputContact";
-    inputContact.name = payload?.type || "tel";
+    inputContact.name = contact?.type || "tel";
     inputContact.type = "text";
     inputContact.placeholder = "Введите данные";
-    inputContact.value = payload?.value || null;
+    inputContact.value = contact?.value || null;
 
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "deleteBtn";
@@ -783,8 +795,7 @@ function createContact(payload) {
         li.textContent = c.value;
 
         li.addEventListener("click", () => {
-            select.textContent =
-                li.textContent === "Доп. телефон" ? "Телефон" : li.innerText;
+            select.textContent = li.textContent;
             inputContact.name = li.id;
         });
 
@@ -851,6 +862,10 @@ const sortItems = (order) => {
     divTBody.innerHTML = "";
 
     items.forEach((item, index) => {
+        if (item.className === "spinner") {
+            divTBody.appendChild(item);
+            return;
+        }
         if (index === 0) {
             // contactInfoWrapperDown
             Array.from(item.children[4].children).forEach((contact) => {
