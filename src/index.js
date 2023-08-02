@@ -243,9 +243,6 @@ const createDivTBodyItem = ({
         const contactInfoWrapper = document.createElement("div");
         contactInfoWrapper.className = "contactInfoWrapper d-none";
 
-        const romb = document.createElement("span");
-        romb.className = "romb";
-
         const contactInfo = document.createElement("span");
         contactInfo.className = "contactInfo";
         contactInfo.textContent = "contactInfo";
@@ -272,7 +269,7 @@ const createDivTBodyItem = ({
         }
 
         contactInfo.append(contactInfoId);
-        contactInfoWrapper.append(romb, contactInfo);
+        contactInfoWrapper.append(contactInfo);
         item.append(contactInfoWrapper);
 
         switch (contact.type) {
@@ -832,6 +829,7 @@ function toggleElements() {
 // Функция для сортировки элементов таблицы
 const sortItems = (order) => {
     const divTBody = document.querySelector(".divTBody");
+    // Создаем массив из элементов
     const items = Array.from(divTBody.children);
 
     items.sort((a, b) => {
@@ -852,8 +850,35 @@ const sortItems = (order) => {
 
     divTBody.innerHTML = "";
 
-    items.forEach((item) => {
-        divTBody.appendChild(item);
+    items.forEach((item, index) => {
+        if (index === 0) {
+            // contactInfoWrapperDown
+            Array.from(item.children[4].children).forEach((contact) => {
+                Array.from(contact.children[0].classList).map((item) => {
+                    if (!item.includes("toggleBtnContent")) {
+                        contact.children[0].classList.remove(
+                            "contactInfoWrapper"
+                        );
+                        contact.children[0].classList.add(
+                            "contactInfoWrapperDown"
+                        );
+                    }
+                });
+            });
+            divTBody.appendChild(item);
+        } else {
+            Array.from(item.children[4].children).forEach((contact) => {
+                Array.from(contact.children[0].classList).map((item) => {
+                    if (!item.includes("toggleBtnContent")) {
+                        contact.children[0].classList.remove(
+                            "contactInfoWrapperDown"
+                        );
+                        contact.children[0].classList.add("contactInfoWrapper");
+                    }
+                });
+            });
+            divTBody.appendChild(item);
+        }
     });
 };
 
@@ -994,8 +1019,6 @@ function createClient(clientData) {
         .then((response) => response.json())
         .then((data) => {
             // Обработка полученного ответа
-            console.log(data); // Вывод данных в консоль
-            // Дальнейшая обработка ответа
             const surname = document.querySelector("#surname");
             const name = document.querySelector("#name");
             const starSurname = document.querySelector(".starSurname");

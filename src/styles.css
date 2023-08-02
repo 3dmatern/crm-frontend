@@ -174,8 +174,6 @@ li {
     width: 100%;
     height: 50px;
 
-    padding-bottom: 5px;
-
     color: #b0b0b0;
     font-size: 12px;
     font-weight: 400;
@@ -201,12 +199,12 @@ li {
 .idCol {
     width: 110px;
     text-align: center;
-    padding: 0 10px;
+    padding: 10px;
 }
 
 .fioCol {
     width: 230px;
-    padding: 0 10px;
+    padding: 10px;
 }
 
 .dateCol {
@@ -214,25 +212,23 @@ li {
 }
 
 .dateCol-headerDate {
-    padding: 0 38px 0 10px;
+    padding: 10px 38px 10px 10px;
 }
 
 .contactCol {
     width: 118px;
-    padding: 0 10px;
+    padding: 10px;
 }
 
 .actionCol {
     width: auto;
-    padding: 0 10px;
+    padding: 10px;
 }
 
 .divTBody {
     width: 100%;
     height: 300px;
-    background-color: transparent;
-
-    padding-top: 5px;
+    background-color: #fff;
 
     overflow-y: scroll;
     -ms-overflow-style: none;
@@ -285,7 +281,6 @@ li {
 .itemContactsVKIcon,
 .itemContactsDefaultIcon {
     position: relative;
-    z-index: 0;
 
     width: 16px;
     height: 16px;
@@ -320,14 +315,14 @@ li {
     background: url(../assets/circle.png) no-repeat center;
 }
 
+/* contactInfoWrapper */
+
 .contactInfoWrapper {
     position: absolute;
     top: -30px;
     left: 49%;
     z-index: 9999;
     transform: translate(-50%, 0);
-
-    display: block;
 
     background: #333;
     width: max-content;
@@ -336,10 +331,43 @@ li {
     text-align: center;
     padding: 0px 7px;
 }
-.romb {
+
+.contactInfoWrapper::after {
+    content: "";
     position: absolute;
     left: 50%;
     bottom: -8px;
+    transform: translateX(-50%);
+
+    display: block;
+    width: 10px;
+    height: 10px;
+    rotate: 45deg;
+
+    background-color: #333;
+}
+
+.contactInfoWrapperDown {
+    position: absolute;
+    top: 24px;
+    left: 49%;
+    z-index: 9999;
+    transform: translate(-50%, 0);
+
+    background: #333;
+    width: max-content;
+    height: 23px;
+
+    text-align: center;
+    padding: 0px 7px;
+}
+
+.contactInfoWrapperDown::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 15px;
+    z-index: 9999;
     transform: translateX(-50%);
 
     display: block;
@@ -731,6 +759,7 @@ li {
     position: relative;
     width: 123px;
     height: 37px;
+    /* overflow: hidden; */
 }
 
 .select {
@@ -785,12 +814,20 @@ li {
 
 .selectLists {
     position: absolute;
-    top: 35px;
-    left: 0;
+    width: 121px;
     z-index: 2;
+    transform: translateY(0);
 
     border: 1px solid #c8c5d1;
     background-color: #f4f3f6;
+}
+
+.selectLists-up {
+    bottom: 35px;
+}
+
+.selectLists-down {
+    top: 35px;
 }
 
 .selectListsItem {
