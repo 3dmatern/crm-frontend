@@ -312,7 +312,7 @@ const createDivTBodyItem = ({
     contacts.length > 4 && itemContacts.append(toggleBtnContact);
 
     toggleBtnContact.addEventListener("click", () => {
-        toggleElements();
+        toggleElements(itemContacts);
         toggleBtnContact.remove();
     });
 
@@ -814,8 +814,8 @@ function createSpinner() {
 }
 
 /* Функция для показа скрытых контактов */
-function toggleElements() {
-    const elementsToToggle = document.querySelectorAll(".hidden-element");
+function toggleElements(parentElement) {
+    const elementsToToggle = parentElement.querySelectorAll(".hidden-element");
 
     elementsToToggle.forEach((element) => {
         if (element.classList.contains("d-none")) {
