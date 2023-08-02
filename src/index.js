@@ -851,6 +851,7 @@ const sortItems = (order) => {
     });
 
     divTBody.innerHTML = "";
+
     items.forEach((item) => {
         divTBody.appendChild(item);
     });
